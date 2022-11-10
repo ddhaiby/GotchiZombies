@@ -1,6 +1,14 @@
 # GotchiZombies
 
-## The game
+## _Node_
+Download and install nodejs vesion 16.15.1
+
+https://nodejs.org/en/download/
+
+To double-check that npm has installed. Write _npm_ in a console. It should display something like below.
+![image](https://user-images.githubusercontent.com/72042952/171963988-863ee360-e815-4b63-bb17-0861254e1b7e.png)
+
+## _Launch the game_
 
 - Clone the repository https://github.com/ddhaiby/GotchiZombies
 - Make sure you are up-to-date with master branch
