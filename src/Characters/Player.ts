@@ -42,7 +42,7 @@ export class Player extends Character
     protected initKeys(): void
     {
         this.keys = this.scene.input.keyboard.addKeys({
-            up: "Z",
+            up: "w",
             down: "S",
             left: "Q",
             right: "D"
