@@ -12,8 +12,6 @@ export class NpcBase extends Character
     constructor(scene: Phaser.Scene, x?: number, y?: number, texture?: string)
     {
         super(scene, x, y);
-
-        this.walkSpeed = 100;
     }
 
     // Init
@@ -36,7 +34,7 @@ export class NpcBase extends Character
     {
         super.updateControls();
 
-        if (this.target)
+        if (this.target && this.target.isAlive())
         {
             if (this.x > this.target.x + this.thresholdFollowTarget)
             {
@@ -64,6 +62,10 @@ export class NpcBase extends Character
                 this.stopWalkingY();
             }
         }
+        else
+        {
+            this.stopWalking();
+        }
     }
 
     public startFollowingTarget(target: Character): void
@@ -76,7 +78,7 @@ export class NpcBase extends Character
         this.target = null;
     }
 
-    protected die(): void
+    public die(): void
     {
         super.die();
         this.target = null;

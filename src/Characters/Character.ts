@@ -1,6 +1,12 @@
 import { CST } from "../CST";
 import { GZ_Bar } from "../Gui/GZ_Bar";
 
+export declare type AttributeData = {
+    walkSpeed: number,
+    maxHealth: number,
+    damage: number
+} 
+
 export class Character extends Phaser.Physics.Arcade.Sprite
 {
     // Attributes
@@ -65,8 +71,9 @@ export class Character extends Phaser.Physics.Arcade.Sprite
     // Init
     ////////////////////////////////////////////////////////////////////////
 
-    public init(texture?: string): void
+    public init(texture?: string, attributeData?: AttributeData): void
     {
+        this.initAttributes(attributeData);
         this.initAbilities();
         this.initStates();
         this.initHealthBar();
@@ -78,6 +85,16 @@ export class Character extends Phaser.Physics.Arcade.Sprite
 
         this.body.setSize(this.width, this.height);
         // this.body.immovable = true;
+    }
+
+    protected initAttributes(attributeData?: AttributeData): void
+    {
+        if (attributeData)
+        {
+            this.maxHealth = attributeData.maxHealth;
+            this.walkSpeed = attributeData.walkSpeed;
+            this.damage = attributeData.damage;
+        }
     }
 
     protected initAbilities(): void
@@ -172,9 +189,16 @@ export class Character extends Phaser.Physics.Arcade.Sprite
 
     protected die(): void
     {
+        this.health = 0;
         this.stopWalking();
         this.disableBody(true, false);
         this.healthBar.setVisible(false);
+        this.emit("DIE");
+    }
+
+    public onDie(fn: Function, context?: any): void
+    {
+        this.on("DIE", fn, context);
     }
 
     public hit(targetCharacter: Character)

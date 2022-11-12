@@ -11,6 +11,9 @@ export class SceneGame extends Phaser.Scene
     private player: Player;
     private npcs: Phaser.Physics.Arcade.Group;
 
+    // Map
+    private currentMap: Phaser.Tilemaps.Tilemap;
+
     private mouseArea: Phaser.GameObjects.Graphics;
 
     constructor()
@@ -35,7 +38,9 @@ export class SceneGame extends Phaser.Scene
 
     private loadMap(): void
     {
-        
+        this.load.setPath("./assets/maps");
+        this.load.image("cyber_plateforms_atlas", "./cyber_plateforms_atlas.png");
+        this.load.tilemapTiledJSON("Level1", "./levels/Level1.json");
     }
 
     // Create
@@ -65,11 +70,21 @@ export class SceneGame extends Phaser.Scene
         this.add.image(0, 604, "floor").setOrigin(0);
         this.add.image(floor1.width - 11, 604, "floor").setOrigin(0);
         this.add.image(floor2.x + floor2.width - 11, 604, "floor").setOrigin(0);
+
+        if (this.currentMap)
+        {
+            this.currentMap.destroy();
+            this.currentMap = null;
+        }
+
+        this.currentMap = this.add.tilemap("Level1");
     }
 
     private createPlayer(): void
     {
-        this.player = new Player(this, 470, 300);
+        // @ts-ignore - Problem with Phaser’s types. classType supports classes
+        const playerSpawns = this.currentMap.createFromObjects("Characters", {name: "Player", classType: Player});
+        this.player = playerSpawns[0] as Player;
         this.player.setDepth(1);
         this.player.init("player");
     }
@@ -78,93 +93,18 @@ export class SceneGame extends Phaser.Scene
     {
         this.npcs = this.physics.add.group();
 
-        const spawner1 = new NpcSpawner(this, 30, 200);
-        this.time.delayedCall(1500 + Math.random() * 1000, ()=> {
-            const npc = spawner1.spawnNpc();
-            this.npcs.add(npc);
-            npc.init("zombie");
-            npc.startFollowingTarget(this.player);
-        }, null, this);
+        // @ts-ignore - Problem with Phaser’s types. classType supports classes
+        const spawners = this.currentMap.createFromObjects("Characters", {name: "NpcSpawner", classType: NpcSpawner});
 
-        this.time.delayedCall(6500 + Math.random() * 1000, ()=> {
-            const npc = spawner1.spawnNpc();
-            this.npcs.add(npc);
-            npc.init("zombie");
-            npc.startFollowingTarget(this.player);
-        }, null, this);
+        spawners.map((spawner: NpcSpawner) => {
+            spawner.on("NPC_SPAWNED", (npc: NpcBase) => {
+                this.npcs.add(npc);
+                npc.init("zombie");
+                npc.startFollowingTarget(this.player);
+            }, this);
 
-        this.time.delayedCall(10500 + Math.random() * 1000, ()=> {
-            const npc = spawner1.spawnNpc();
-            this.npcs.add(npc);
-            npc.init("zombie");
-            npc.startFollowingTarget(this.player);
-        }, null, this);
-
-
-        const spawner2 = new NpcSpawner(this, 30, 600);
-        this.time.delayedCall(1500 + Math.random() * 1000, ()=> {
-            const npc = spawner2.spawnNpc();
-            this.npcs.add(npc);
-            npc.init("zombie");
-            npc.startFollowingTarget(this.player);
-        }, null, this);
-
-        this.time.delayedCall(6500 + Math.random() * 1000, ()=> {
-            const npc = spawner2.spawnNpc();
-            this.npcs.add(npc);
-            npc.init("zombie");
-            npc.startFollowingTarget(this.player);
-        }, null, this);
-
-        this.time.delayedCall(10500 + Math.random() * 1000, ()=> {
-            const npc = spawner2.spawnNpc();
-            this.npcs.add(npc);
-            npc.init("zombie");
-            npc.startFollowingTarget(this.player);
-        }, null, this);
-
-        this.time.delayedCall(10500 + Math.random() * 1000, ()=> {
-            const npc = spawner2.spawnNpc();
-            this.npcs.add(npc);
-            npc.init("zombie");
-            npc.startFollowingTarget(this.player);
-        }, null, this);
-
-        const spawner3 = new NpcSpawner(this, 1000, 400);
-        this.time.delayedCall(1500 + Math.random() * 1000, ()=> {
-            const npc = spawner3.spawnNpc();
-            this.npcs.add(npc);
-            npc.init("zombie");
-            npc.startFollowingTarget(this.player);
-        }, null, this);
-
-        this.time.delayedCall(6500 + Math.random() * 1000, ()=> {
-            const npc = spawner3.spawnNpc();
-            this.npcs.add(npc);
-            npc.init("zombie");
-            npc.startFollowingTarget(this.player);
-        }, null, this);
-
-        this.time.delayedCall(10500 + Math.random() * 1000, ()=> {
-            const npc = spawner3.spawnNpc();
-            this.npcs.add(npc);
-            npc.init("zombie");
-            npc.startFollowingTarget(this.player);
-        }, null, this);
-
-        this.time.delayedCall(10500 + Math.random() * 1000, ()=> {
-            const npc = spawner3.spawnNpc();
-            this.npcs.add(npc);
-            npc.init("zombie");
-            npc.startFollowingTarget(this.player);
-        }, null, this);
-
-        this.time.delayedCall(11500 + Math.random() * 1000, ()=> {
-            const npc = spawner3.spawnNpc();
-            this.npcs.add(npc);
-            npc.init("zombie");
-            npc.startFollowingTarget(this.player);
-        }, null, this);
+            spawner.init();
+        });
     }
 
     private createCameras(): void
@@ -196,6 +136,7 @@ export class SceneGame extends Phaser.Scene
     private onPlayerOverlapNpc(player: Player, npc: NpcBase): void
     {
         npc.hit(player);
+        npc.die();
         npc.destroy();
     }
 

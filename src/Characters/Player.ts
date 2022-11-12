@@ -22,9 +22,6 @@ export class Player extends Character
     constructor(scene: Phaser.Scene, x?: number, y?: number)
     {
         super(scene, x, y);
-
-        this.walkSpeed = 250;
-        this.damage = 50;
     }
 
     // Init
