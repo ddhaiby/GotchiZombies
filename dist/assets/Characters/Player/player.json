@@ -1,0 +1,209 @@
+{
+	"textures": [
+		{
+			"image": "player.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 401,
+				"h": 66
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "playerVictory_002.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 59,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 59,
+						"h": 64
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 59,
+						"h": 64
+					}
+				},
+				{
+					"filename": "playerPointingLeft.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 54,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 54,
+						"h": 64
+					},
+					"frame": {
+						"x": 62,
+						"y": 1,
+						"w": 54,
+						"h": 64
+					}
+				},
+				{
+					"filename": "playerPointingRight.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 54,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 54,
+						"h": 64
+					},
+					"frame": {
+						"x": 118,
+						"y": 1,
+						"w": 54,
+						"h": 64
+					}
+				},
+				{
+					"filename": "playerDeath_001.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 40,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 40,
+						"h": 64
+					},
+					"frame": {
+						"x": 174,
+						"y": 1,
+						"w": 40,
+						"h": 64
+					}
+				},
+				{
+					"filename": "playerDown_001.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 40,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 40,
+						"h": 64
+					},
+					"frame": {
+						"x": 216,
+						"y": 1,
+						"w": 40,
+						"h": 64
+					}
+				},
+				{
+					"filename": "playerUp_001.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 40,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 40,
+						"h": 64
+					},
+					"frame": {
+						"x": 258,
+						"y": 1,
+						"w": 40,
+						"h": 64
+					}
+				},
+				{
+					"filename": "playerVictory_001.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 40,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 40,
+						"h": 64
+					},
+					"frame": {
+						"x": 300,
+						"y": 1,
+						"w": 40,
+						"h": 64
+					}
+				},
+				{
+					"filename": "playerLeft_001.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 28,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 28,
+						"h": 64
+					},
+					"frame": {
+						"x": 342,
+						"y": 1,
+						"w": 28,
+						"h": 64
+					}
+				},
+				{
+					"filename": "playerRight_001.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 28,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 28,
+						"h": 64
+					},
+					"frame": {
+						"x": 372,
+						"y": 1,
+						"w": 28,
+						"h": 64
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:8a93d1d1002bdf1c1eb9458fd7b4e293:82e56e791c0e8e21823b19c20edc2140:86d5339b780aedd87b35e2b7c0a7e11b$"
+	}
+}

@@ -37,7 +37,7 @@ export class ScenePreloadAssets extends Phaser.Scene
     private loadCharacters() : void
     {
         this.load.setPath("./assets/Characters");
-        this.load.image("player", "Player/player.png");
+        this.load.atlas("player", "Player/player.png", "Player/player.json");
         this.load.atlas("zombie", "Enemies/Zombie/zombie.png", "Enemies/Zombie/zombie.json");
     }
 

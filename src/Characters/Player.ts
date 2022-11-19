@@ -39,9 +39,9 @@ export class Player extends Character
     protected initKeys(): void
     {
         this.keys = this.scene.input.keyboard.addKeys({
-            up: "w",
+            up: "W",
             down: "S",
-            left: "Q",
+            left: "A",
             right: "D"
         }, false) as PlayerKeys;
     }
@@ -60,6 +60,41 @@ export class Player extends Character
     protected initAnimations(texture: string): void
     {
         super.initAnimations(texture);
+
+        const sides = ["Down", "Up", "Right", "Left"];
+
+        for (const side of sides)
+        {
+            this.anims.create({
+                key: "Idle" + side,
+                frames: this.anims.generateFrameNames(this.texture.key, { prefix: "player" + side + "_", suffix: ".png", start: 1, end: 1, zeroPad: 3 }),
+                frameRate: 1,
+                repeat: -1
+            });
+
+            this.anims.create({
+                key: "Walk" + side,
+                frames: this.anims.generateFrameNames(this.texture.key, { prefix: "player" + side + "_", suffix: ".png", start: 1, end: 1, zeroPad: 3 }),
+                frameRate: 1,
+                repeat: -1
+            });
+
+            this.anims.create({
+                key: "Death",
+                frames: this.anims.generateFrameNames(this.texture.key, { prefix: "playerDeath" + "_", suffix: ".png", start: 1, end: 1, zeroPad: 3 }),
+                frameRate: 1,
+                repeat: -1
+            });
+
+            this.anims.create({
+                key: "Victory",
+                frames: this.anims.generateFrameNames(this.texture.key, { prefix: "playerVictory" + "_", suffix: ".png", start: 1, end: 2, zeroPad: 3 }),
+                frameRate: 1,
+                repeat: -1
+            });
+        }
+
+        this.anims.play("IdleDown");
     }
 
     // Update
@@ -73,6 +108,11 @@ export class Player extends Character
     /** Define the way to control this Character */
     protected updateControls(): void
     {
+        if (!this.isAlive())
+        {
+            return;
+        }
+
         if (this.keys.up.isDown)
         {
             this.lookUp();
@@ -136,10 +176,36 @@ export class Player extends Character
     {
         super.die();
 
+        this.anims.play("Death", false);
+
         this.scene.tweens.add({
             targets: this,
             alpha: 0,
-            duration: 1500
+            duration: 2000
         });
+    }
+
+    public walkUp(): void
+    {
+        super.walkUp();
+        this.anims.play("WalkUp", true);
+    }
+
+    public walkDown(): void
+    {
+        super.walkDown();
+        this.anims.play("WalkDown", true);
+    }
+
+    public walkOnLeft(): void
+    {
+        super.walkOnLeft();
+        this.anims.play("WalkLeft", true);
+    }
+
+    public walkOnRight(): void
+    {
+        super.walkOnRight();
+        this.anims.play("WalkRight", true);
     }
 }
