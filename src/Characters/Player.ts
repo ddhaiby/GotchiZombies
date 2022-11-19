@@ -115,12 +115,10 @@ export class Player extends Character
 
         if (this.keys.up.isDown)
         {
-            this.lookUp();
             this.walkUp();
         }
         else if (this.keys.down.isDown)
         {
-            this.lookDown();
             this.walkDown();
         }
         else
@@ -130,12 +128,10 @@ export class Player extends Character
 
         if (this.keys.right.isDown)
         {
-            this.lookOnRight();
             this.walkOnRight();
         }
         else if (this.keys.left.isDown)
         {
-            this.lookOnLeft();
             this.walkOnLeft();
         }
         else

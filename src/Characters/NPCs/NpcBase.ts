@@ -20,6 +20,29 @@ export class NpcBase extends Character
     protected initAnimations(texture: string): void
     {
         super.initAnimations(texture);
+
+        this.anims.create({
+            key: "Idle",
+            frames: this.anims.generateFrameNames(this.texture.key, { prefix: "zombie_", suffix: ".png", start: 1, end: 8, zeroPad: 3 }),
+            frameRate: 1,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: "Death",
+            frames: this.anims.generateFrameNames(this.texture.key, { prefix: "zombie_", suffix: ".png", start: 1, end: 1, zeroPad: 3 }),
+            frameRate: 1,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: "Walk",
+            frames: this.anims.generateFrameNames(this.texture.key, { prefix: "zombie_", suffix: ".png", start: 1, end: 8, zeroPad: 3 }),
+            frameRate: 1,
+            repeat: -1
+        });
+
+        this.anims.play("Idle");
     }
 
      // Update
@@ -90,5 +113,13 @@ export class NpcBase extends Character
             onComplete: this.destroy,
             onCompleteScope: this
         });
+    }
+
+    public walk(x: number, y: number): void
+    {
+        super.walk(x, y);
+
+        this.anims.play("Walk", true);
+        this.setFlipX(!this.isLookingRight);
     }
 }

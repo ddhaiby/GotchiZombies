@@ -238,24 +238,32 @@ export class Character extends Phaser.Physics.Arcade.Sprite
 
     public walkUp(): void
     {
+        this.lookUp();
+
         const currentWalkSpeedX = (this.body as Phaser.Physics.Arcade.Body).velocity.x;
         this.walk(currentWalkSpeedX, -this.walkSpeed);
     }
 
     public walkDown(): void
     {
+        this.lookDown();
+
         const currentWalkSpeedX = (this.body as Phaser.Physics.Arcade.Body).velocity.x;
         this.walk(currentWalkSpeedX, this.walkSpeed);
     }
 
     public walkOnLeft(): void
     {
+        this.lookOnLeft();
+
         const currentWalkSpeedY = (this.body as Phaser.Physics.Arcade.Body).velocity.y;
         this.walk(-this.walkSpeed, currentWalkSpeedY);
     }
 
     public walkOnRight(): void
     {
+        this.lookOnRight();
+
         const currentWalkSpeedY = (this.body as Phaser.Physics.Arcade.Body).velocity.y;
         this.walk(this.walkSpeed, currentWalkSpeedY);
     }
