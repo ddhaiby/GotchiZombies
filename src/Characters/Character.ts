@@ -62,7 +62,7 @@ export class Character extends Phaser.Physics.Arcade.Sprite
     {
         if (this.healthBar)
         {
-            this.healthBar.destroy();
+            this.healthBar.destroy(true);
             this.healthBar = null;
         }
         super.destroy(fromScene);

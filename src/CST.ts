@@ -9,6 +9,28 @@ export const CST = {
     },
     SCENES: {
         PRELOAD_ASSETS: "PRELOAD_ASSETS",
-        GAME: "GAME"
+        GAME: "GAME",
+        MAIN_MENU: "MAIN_MENU"
+    },
+    STYLE: {
+        COLOR: {
+            ORANGE: "#FFBC32",
+            BLACK: "#000000",
+            WHITE: "#FFFFFF",
+            PURPLE: "#8a1eaa",
+            GAME_BACKGROUND: "#23014b",
+            TEXT: {
+                NORMAL: "#171822",
+                HOVERED: "#FFFFFF",
+                PRESSED: "#B2B2B2",
+                DISABLED: "#555555"
+            },
+            ICON: {
+                NORMAL: "#FFBC32",
+                HOVERED: "#FFFFFF",
+                PRESSED: "#B2B2B2",
+                DISABLED: "#555555"
+            }
+        }
     }
 }

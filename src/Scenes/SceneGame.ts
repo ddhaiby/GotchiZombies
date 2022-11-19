@@ -4,6 +4,8 @@ import { NpcBase } from "../Characters/NPCs/NpcBase";
 import { NpcSpawner } from "../Characters/NPCs/NpcSpawner";
 import { CST } from "../CST";
 import { GZ_Bullet } from "../Weapons/GZ_Bullet";
+import { SceneData } from "./GZ_Scene";
+import { SceneMainMenu_UI } from "./SceneMainMenu_UI";
 
 export class SceneGame extends Phaser.Scene
 {
@@ -16,6 +18,9 @@ export class SceneGame extends Phaser.Scene
 
     private mouseArea: Phaser.GameObjects.Graphics;
 
+    // Level data
+    private _currentLevel: number;
+
     constructor()
     {
         super({key: CST.SCENES.GAME});
@@ -24,8 +29,9 @@ export class SceneGame extends Phaser.Scene
     // Init
     ////////////////////////////////////////////////////////////////////////
 
-    public init(): void
+    public init(data?: SceneData): void
     {
+        this._currentLevel = data && data.level ? data.level : 1;
     }
 
     // Preload
@@ -40,7 +46,9 @@ export class SceneGame extends Phaser.Scene
     {
         this.load.setPath("./assets/maps");
         this.load.image("cyber_plateforms_atlas", "./cyber_plateforms_atlas.png");
-        this.load.tilemapTiledJSON("Level1", "./levels/Level1.json");
+
+        const levelName = "Level" + this._currentLevel.toString();
+        this.load.tilemapTiledJSON(levelName, "./levels" + "/" + levelName + ".json");
     }
 
     // Create
@@ -49,7 +57,35 @@ export class SceneGame extends Phaser.Scene
     public create(): void
     {
         this.events.on("postupdate", this.postUpdate, this);
+
+        this.createKeyboardMap();
         this.createLevel();
+    }
+
+    private createKeyboardMap(): this
+    {
+        
+        const keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+        keyESC.on("down", function () {
+            this.time.clearPendingEvents();
+
+            if (this.npcs)
+            {
+                this.npcs.clear(true, true);
+                this.npcs = null;
+            }
+
+            if (this.player)
+            {
+                this.player.destroy(true);
+                this.player = null;
+            }
+
+            this.scene.add(CST.SCENES.MAIN_MENU, SceneMainMenu_UI, true, null);
+            this.scene.setVisible(false);
+            this.scene.setActive(false);
+        }, this);
+        return this;
     }
 
     private createLevel(): void
@@ -77,7 +113,7 @@ export class SceneGame extends Phaser.Scene
             this.currentMap = null;
         }
 
-        this.currentMap = this.add.tilemap("Level1");
+        this.currentMap = this.add.tilemap("Level" + this._currentLevel.toString());
     }
 
     private createPlayer(): void
@@ -90,7 +126,7 @@ export class SceneGame extends Phaser.Scene
     }
 
     private createNpcs(): void
-    {
+    {       
         this.npcs = this.physics.add.group();
 
         // @ts-ignore - Problem with Phaser’s types. classType supports classes
@@ -137,7 +173,7 @@ export class SceneGame extends Phaser.Scene
     {
         npc.hit(player);
         npc.die();
-        npc.destroy();
+        npc.destroy(true);
     }
 
     private canPlayerBulletHitNpc(bullet: GZ_Bullet, npc: NpcBase): boolean
@@ -158,13 +194,27 @@ export class SceneGame extends Phaser.Scene
     {
         super.update(time, delta);
         
-        this.player.update();
-        this.npcs.getChildren().forEach((npc: NpcBase) => { npc.update(); }, this);
+        if (this.player)
+        {
+            this.player.update();
+        }
+        
+        if (this.npcs)
+        {
+            this.npcs.getChildren().forEach((npc: NpcBase) => { npc.update(); }, this);
+        }
     }
 
     private postUpdate(): void 
     {
-        this.player.postUpdate();
-        this.npcs.getChildren().forEach((npc: NpcBase) => { npc.postUpdate(); }, this);
+        if (this.player)
+        {
+            this.player.postUpdate();
+        }
+    
+        if (this.npcs)
+        {
+            this.npcs.getChildren().forEach((npc: NpcBase) => { npc.postUpdate(); }, this);
+        }
     }
 }

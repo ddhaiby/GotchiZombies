@@ -44,13 +44,56 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":544,
-                 "y":592
+                 "x":304,
+                 "y":336
                 }, 
                 {
                  "gid":8,
                  "height":32,
-                 "id":401,
+                 "id":396,
+                 "name":"NpcSpawner",
+                 "properties":[
+                        {
+                         "name":"damage",
+                         "type":"float",
+                         "value":25
+                        }, 
+                        {
+                         "name":"maxHealth",
+                         "type":"float",
+                         "value":100
+                        }, 
+                        {
+                         "name":"maxSpawnableNpcCount",
+                         "type":"int",
+                         "value":6
+                        }, 
+                        {
+                         "name":"maxSpawnableNpcInGameCount",
+                         "type":"int",
+                         "value":2
+                        }, 
+                        {
+                         "name":"spawnCooldown",
+                         "type":"float",
+                         "value":0.5
+                        }, 
+                        {
+                         "name":"walkSpeed",
+                         "type":"float",
+                         "value":100
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":592,
+                 "y":80
+                }, 
+                {
+                 "gid":8,
+                 "height":32,
+                 "id":399,
                  "name":"NpcSpawner",
                  "properties":[
                         {
@@ -87,8 +130,94 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":64,
-                 "y":96
+                 "x":0,
+                 "y":120
+                }, 
+                {
+                 "gid":8,
+                 "height":32,
+                 "id":400,
+                 "name":"NpcSpawner",
+                 "properties":[
+                        {
+                         "name":"damage",
+                         "type":"float",
+                         "value":25
+                        }, 
+                        {
+                         "name":"maxHealth",
+                         "type":"float",
+                         "value":100
+                        }, 
+                        {
+                         "name":"maxSpawnableNpcCount",
+                         "type":"int",
+                         "value":3
+                        }, 
+                        {
+                         "name":"maxSpawnableNpcInGameCount",
+                         "type":"int",
+                         "value":3
+                        }, 
+                        {
+                         "name":"spawnCooldown",
+                         "type":"float",
+                         "value":2
+                        }, 
+                        {
+                         "name":"walkSpeed",
+                         "type":"float",
+                         "value":100
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":0,
+                 "y":600
+                }, 
+                {
+                 "gid":8,
+                 "height":32,
+                 "id":401,
+                 "name":"NpcSpawner",
+                 "properties":[
+                        {
+                         "name":"damage",
+                         "type":"float",
+                         "value":25
+                        }, 
+                        {
+                         "name":"maxHealth",
+                         "type":"float",
+                         "value":100
+                        }, 
+                        {
+                         "name":"maxSpawnableNpcCount",
+                         "type":"int",
+                         "value":6
+                        }, 
+                        {
+                         "name":"maxSpawnableNpcInGameCount",
+                         "type":"int",
+                         "value":2
+                        }, 
+                        {
+                         "name":"spawnCooldown",
+                         "type":"float",
+                         "value":0.5
+                        }, 
+                        {
+                         "name":"walkSpeed",
+                         "type":"float",
+                         "value":100
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":560,
+                 "y":600
                 }],
          "opacity":1,
          "type":"objectgroup",

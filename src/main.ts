@@ -7,6 +7,7 @@ new GZ_Game({
     type: Phaser.AUTO,
     width: CST.GAME.WIDTH,
     height: CST.GAME.HEIGHT,
+    backgroundColor: CST.STYLE.COLOR.GAME_BACKGROUND,
     scale: {
         parent: document.body,
         autoCenter: Phaser.Scale.CENTER_BOTH

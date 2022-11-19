@@ -44,13 +44,56 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":544,
-                 "y":592
+                 "x":280,
+                 "y":632
                 }, 
                 {
                  "gid":8,
                  "height":32,
-                 "id":401,
+                 "id":396,
+                 "name":"NpcSpawner",
+                 "properties":[
+                        {
+                         "name":"damage",
+                         "type":"float",
+                         "value":25
+                        }, 
+                        {
+                         "name":"maxHealth",
+                         "type":"float",
+                         "value":100
+                        }, 
+                        {
+                         "name":"maxSpawnableNpcCount",
+                         "type":"int",
+                         "value":6
+                        }, 
+                        {
+                         "name":"maxSpawnableNpcInGameCount",
+                         "type":"int",
+                         "value":2
+                        }, 
+                        {
+                         "name":"spawnCooldown",
+                         "type":"float",
+                         "value":0.5
+                        }, 
+                        {
+                         "name":"walkSpeed",
+                         "type":"float",
+                         "value":100
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":592,
+                 "y":96
+                }, 
+                {
+                 "gid":8,
+                 "height":32,
+                 "id":399,
                  "name":"NpcSpawner",
                  "properties":[
                         {
@@ -87,7 +130,7 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":64,
+                 "x":24,
                  "y":96
                 }],
          "opacity":1,
@@ -97,7 +140,7 @@
          "y":0
         }],
  "nextlayerid":17,
- "nextobjectid":402,
+ "nextobjectid":401,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.2",

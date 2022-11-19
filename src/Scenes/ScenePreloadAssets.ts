@@ -1,5 +1,6 @@
 import { CST } from "../CST";
 import { SceneGame } from "./SceneGame";
+import { SceneMainMenu_UI } from "./SceneMainMenu_UI";
 
 export class ScenePreloadAssets extends Phaser.Scene
 {
@@ -22,6 +23,7 @@ export class ScenePreloadAssets extends Phaser.Scene
     {
         this.loadMap();
         this.loadCharacters();
+        this.loadUIAssets();
 
         this.load.setPath("./assets/");
         this.load.image("bullet", "bullet.png");
@@ -41,6 +43,12 @@ export class ScenePreloadAssets extends Phaser.Scene
         this.load.atlas("zombie", "Enemies/Zombie/zombie.png", "Enemies/Zombie/zombie.json");
     }
 
+    private loadUIAssets() : void
+    {
+        this.load.setPath("./assets/UI");
+        this.load.image("playerPointingLeft", "playerPointingLeft.png");
+    }
+
     // Create
     ////////////////////////////////////////////////////////////////////////
   
@@ -51,7 +59,7 @@ export class ScenePreloadAssets extends Phaser.Scene
 
     private createSceneGame(): void
     {
-        this.scene.add(CST.SCENES.GAME, SceneGame, true, null);
+        this.scene.add(CST.SCENES.MAIN_MENU, SceneMainMenu_UI, true, null);
         this.scene.remove(CST.SCENES.PRELOAD_ASSETS);
     }
 }
