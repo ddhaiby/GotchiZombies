@@ -6,6 +6,7 @@ import { CST } from "../CST";
 import { GZ_Bullet } from "../Weapons/GZ_Bullet";
 import { SceneData } from "./GZ_Scene";
 import { SceneMainMenu_UI } from "./SceneMainMenu_UI";
+import { Bullet } from "phaser3-weapon-plugin";
 
 export class SceneGame extends Phaser.Scene
 {
@@ -15,6 +16,7 @@ export class SceneGame extends Phaser.Scene
 
     // Map
     private currentMap: Phaser.Tilemaps.Tilemap;
+    private ground: Phaser.Tilemaps.TilemapLayer;
 
     private mouseArea: Phaser.GameObjects.Graphics;
 
@@ -99,13 +101,13 @@ export class SceneGame extends Phaser.Scene
 
     private createMap(): void
     {
-        const floor1 = this.add.image(0, 0, "floor").setOrigin(0);
-        const floor2 = this.add.image(floor1.width - 11, 0, "floor").setOrigin(0);
-        this.add.image(floor2.x + floor2.width - 11, 0, "floor").setOrigin(0);
+        const floor1 = this.add.image(0, 0, "floor").setOrigin(0).setScrollFactor(0);
+        const floor2 = this.add.image(floor1.width - 11, 0, "floor").setOrigin(0).setScrollFactor(0);
+        this.add.image(floor2.x + floor2.width - 11, 0, "floor").setOrigin(0).setScrollFactor(0);
 
-        this.add.image(0, 604, "floor").setOrigin(0);
-        this.add.image(floor1.width - 11, 604, "floor").setOrigin(0);
-        this.add.image(floor2.x + floor2.width - 11, 604, "floor").setOrigin(0);
+        this.add.image(0, 604, "floor").setOrigin(0).setScrollFactor(0);
+        this.add.image(floor1.width - 11, 604, "floor").setOrigin(0).setScrollFactor(0);
+        this.add.image(floor2.x + floor2.width - 11, 604, "floor").setOrigin(0).setScrollFactor(0);
 
         if (this.currentMap)
         {
@@ -114,6 +116,11 @@ export class SceneGame extends Phaser.Scene
         }
 
         this.currentMap = this.add.tilemap("Level" + this._currentLevel.toString());
+
+        const groundTilesetImage = this.currentMap.addTilesetImage("cyber_plateforms_atlas", "cyber_plateforms_atlas");
+        this.ground = this.currentMap.createLayer("Ground", [groundTilesetImage], 0, 0);
+        const groundBounds = this.ground.getBounds();
+        this.physics.world.setBounds(0, 0, groundBounds.width, groundBounds.height);
     }
 
     private createPlayer(): void
@@ -145,23 +152,31 @@ export class SceneGame extends Phaser.Scene
 
     private createCameras(): void
     {
-        //this.cameras.main.startFollow(this.player);
+        this.cameras.main.setBounds(0, 0, this.physics.world.bounds.width, this.physics.world.bounds.height);
+        this.cameras.main.zoomTo(CST.GAME.ZOOM, 0.0);
+        this.cameras.main.startFollow(this.player);
     }
 
     private createInteractions(): void
     {
         this.mouseArea = this.add.graphics();
         // this.mouseArea.setInteractive(new Phaser.Geom.Rectangle(0, 0, this.seas.getBounds().width, this.seas.getBounds().height), Phaser.Geom.Rectangle.Contains);
-        this.mouseArea.setInteractive(new Phaser.Geom.Rectangle(0, 0, 2000, 2000), Phaser.Geom.Rectangle.Contains);
+        this.mouseArea.setInteractive(new Phaser.Geom.Rectangle(0, 0, this.physics.world.bounds.width, this.physics.world.bounds.height), Phaser.Geom.Rectangle.Contains);
 
         this.mouseArea.on("pointerdown", (pointer: Phaser.Input.Pointer) => {
             this.player.fireAtPointer(pointer);
         });
 
+        this.ground.setCollisionByProperty({collides: true});
+
+        // @ts-ignore
+        this.physics.add.collider(this.player, this.ground);
+        // @ts-ignore
+        this.physics.add.collider(this.player.currentWeapon.bullets, this.ground, this.onBulletHitGround, null, this);
+
         this.physics.add.collider(this.npcs, this.npcs);
         this.physics.add.overlap(this.player.currentWeapon.bullets, this.npcs, this.onPlayerBulletHitNpc, this.canPlayerBulletHitNpc, this);
         this.physics.add.overlap(this.player, this.npcs, this.onPlayerOverlapNpc, this.canPlayerOverlapNpc, this);
-
     }
 
     private canPlayerOverlapNpc(player: Player, npc: NpcBase): boolean
@@ -184,6 +199,11 @@ export class SceneGame extends Phaser.Scene
     private onPlayerBulletHitNpc(bullet: GZ_Bullet, npc: NpcBase): void
     {
         bullet.owner.hit(npc);
+        bullet.kill();
+    }
+
+    private onBulletHitGround(bullet: Bullet, platform: Phaser.Tilemaps.TilemapLayer | Phaser.GameObjects.Image): void
+    {
         bullet.kill();
     }
 

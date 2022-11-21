@@ -1,7 +1,8 @@
 export const CST = {
     GAME: {
         WIDTH: 1000,
-        HEIGHT: 700
+        HEIGHT: 700,
+        ZOOM: 1.0
     },
     PHYSIC: {
         GRAVITY: 0,
