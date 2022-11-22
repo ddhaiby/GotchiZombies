@@ -8,19 +8,10 @@ export class NpcSpawner extends Phaser.GameObjects.Zone
 
     // Spawn attributes
     /** The current number of spawned npcs in the game */
-    protected spawnedNpcAliveCount: number = 0;
-
-    /** The max number of npcs that can be in the game together */
-    protected maxSpawnableNpcInGameCount: number = 1;
+    protected _aliveSpawnedNpcCount: number = 0;
 
     /** The number of spawned npcs since the beginning of the game */
-    protected spawnedNpcCount: number = 0;
-
-    /** The max number of npcs that can be spawned with this spawner */
-    protected maxSpawnableNpcCount: number = 2;
-
-    /** Cooldown (in second) to spawn a new npc */
-    protected spawnCooldown: number = 1;
+    protected _spawnedNpcCount: number = 0;
 
     // Npc attributes
     /** Walk speed of the npc */
@@ -37,6 +28,12 @@ export class NpcSpawner extends Phaser.GameObjects.Zone
         super(scene, x, y);
     }
 
+    /** Whether the spawner can spawn a npc */
+    public canSpawnNpc(): boolean
+    {
+        return true;
+    }
+
     /** Spawn a new npc if possible */
     public spawnNpc(): void
     {
@@ -50,26 +47,21 @@ export class NpcSpawner extends Phaser.GameObjects.Zone
 
             this.emit("NPC_SPAWNED", npc);
 
-            ++this.spawnedNpcAliveCount;
-            ++this.spawnedNpcCount;
+            ++this._aliveSpawnedNpcCount;
+            ++this._spawnedNpcCount;
         }
     }
 
-    /** Whether the spawner can spawn a npc */
-    public canSpawnNpc(): boolean
+    public get aliveSpawnedNpcCount(): number
     {
-        return (this.spawnedNpcCount < this.maxSpawnableNpcCount) && (this.spawnedNpcAliveCount < this.maxSpawnableNpcInGameCount);
+        return this._aliveSpawnedNpcCount;
     }
 
-    public init(): void
-    {
-        this.scene.time.delayedCall(this.spawnCooldown * 1000, this.spawnNpc, null, this);
-    }
-
+    /** Triggered function when an npc dies */
     protected onNpcDie(npc: NpcBase): void
     {
-        --this.spawnedNpcAliveCount;
-        this.scene.time.delayedCall(this.spawnCooldown * 1000, this.spawnNpc, null, this);
+        --this._aliveSpawnedNpcCount;
+        this.emit("NPC_DIED", npc);
     }
 
     private setTexture() {}

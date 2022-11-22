@@ -7,11 +7,15 @@ import { GZ_Bullet } from "../Weapons/GZ_Bullet";
 import { SceneData } from "./GZ_Scene";
 import { SceneMainMenu_UI } from "./SceneMainMenu_UI";
 import { Bullet } from "phaser3-weapon-plugin";
+import { WaveManager } from "../WaveSystem/WaveManager";
 
 export class SceneGame extends Phaser.Scene
 {
+    private waveManager: WaveManager = null;
+
     // Characters
-    private player: Player;
+    private player: Player = null;
+    private spawners: NpcSpawner[] = [];
     private npcs: Phaser.Physics.Arcade.Group;
 
     // Map
@@ -62,6 +66,7 @@ export class SceneGame extends Phaser.Scene
 
         this.createKeyboardMap();
         this.createLevel();
+        this.startLevel();
     }
 
     private createKeyboardMap(): this
@@ -133,8 +138,9 @@ export class SceneGame extends Phaser.Scene
     }
 
     private createNpcs(): void
-    {       
+    {
         this.npcs = this.physics.add.group();
+        this.spawners = [];
 
         // @ts-ignore - Problem with Phaser’s types. classType supports classes
         const spawners = this.currentMap.createFromObjects("Characters", {name: "NpcSpawner", classType: NpcSpawner});
@@ -146,8 +152,11 @@ export class SceneGame extends Phaser.Scene
                 npc.startFollowingTarget(this.player);
             }, this);
 
-            spawner.init();
+            this.spawners.push(spawner);
         });
+
+        this.waveManager = new WaveManager(this, this.spawners);
+        this.waveManager.on("WAVE_COMPLETED", this.onWaveCompleted, this)
     }
 
     private createCameras(): void
@@ -205,6 +214,17 @@ export class SceneGame extends Phaser.Scene
     private onBulletHitGround(bullet: Bullet, platform: Phaser.Tilemaps.TilemapLayer | Phaser.GameObjects.Image): void
     {
         bullet.kill();
+    }
+
+    private startLevel(): void
+    {
+        this.waveManager.start();
+    }
+
+    private onWaveCompleted(): void
+    {
+        console.log("wave c")
+        this.add.text(300, 200, "WAVE COMPLETED");
     }
 
     // Update
