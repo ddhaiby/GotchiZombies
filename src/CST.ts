@@ -11,6 +11,7 @@ export const CST = {
     SCENES: {
         PRELOAD_ASSETS: "PRELOAD_ASSETS",
         GAME: "GAME",
+        GAME_UI: "GAME_UI",
         MAIN_MENU: "MAIN_MENU"
     },
     STYLE: {

@@ -8,9 +8,13 @@ import { SceneData } from "./GZ_Scene";
 import { SceneMainMenu_UI } from "./SceneMainMenu_UI";
 import { Bullet } from "phaser3-weapon-plugin";
 import { WaveManager } from "../WaveSystem/WaveManager";
+import { SceneGame_UI } from "./SceneGame_UI";
 
 export class SceneGame extends Phaser.Scene
 {
+    // Scene
+    private sceneGame_UI: SceneGame_UI = null;
+
     private waveManager: WaveManager = null;
 
     // Characters
@@ -102,6 +106,7 @@ export class SceneGame extends Phaser.Scene
         this.createNpcs();
         this.createCameras();
         this.createInteractions();
+        this.createUI();
     }
 
     private createMap(): void
@@ -188,6 +193,30 @@ export class SceneGame extends Phaser.Scene
         this.physics.add.overlap(this.player, this.npcs, this.onPlayerOverlapNpc, this.canPlayerOverlapNpc, this);
     }
 
+    private createUI(): void
+    {
+        if (!this.sceneGame_UI)
+        {
+            this.sceneGame_UI = this.scene.add(CST.SCENES.GAME_UI, SceneGame_UI, true, this) as SceneGame_UI;
+        }
+    }
+
+    public showGameUI(value: boolean): void
+    {
+        if (this.sceneGame_UI)
+        {
+            this.sceneGame_UI.scene.setActive(value);
+            this.sceneGame_UI.scene.setVisible(value);
+        }
+    }
+
+    public showGame(value: boolean): void
+    {
+        this.scene.setActive(value);
+        this.scene.setVisible(value);
+        this.showGameUI(value);
+    }
+
     private canPlayerOverlapNpc(player: Player, npc: NpcBase): boolean
     {
         return player.isAlive();
@@ -218,13 +247,19 @@ export class SceneGame extends Phaser.Scene
 
     private startLevel(): void
     {
-        this.waveManager.start();
+        this.startNextWave();
+        this.showGame(true);
+    }
+
+    public startNextWave(): void
+    {
+        this.waveManager.startNewWave();
+        this.sceneGame_UI.onStartNewWave(this.waveManager.currentWave);
     }
 
     private onWaveCompleted(): void
     {
-        console.log("wave c")
-        this.add.text(300, 200, "WAVE COMPLETED");
+        this.sceneGame_UI.onWaveCompleted();
     }
 
     // Update

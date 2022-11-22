@@ -6,7 +6,7 @@ export class WaveManager extends Phaser.GameObjects.GameObject
     protected spawners: NpcSpawner[] = [];
 
     /** The current wave players are facing */
-    protected _currentWave: number = 1;
+    protected _currentWave: number = 0;
 
     /** Total number of waves - Set value to -1 for infinite waves */
     protected _waveCount: number = -1;
@@ -40,8 +40,12 @@ export class WaveManager extends Phaser.GameObjects.GameObject
         return this._currentWave;
     }
 
-    public start(): void
+    public startNewWave(): void
     {
+        ++this._currentWave;
+        this.aliveSpawnedNpcCount = 0;
+        this.spawnedNpcCount = 0;
+
         for (const spawner of this.spawners)
         {
             this.spawnNpc(spawner);
