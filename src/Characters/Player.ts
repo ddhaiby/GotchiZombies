@@ -19,9 +19,15 @@ export class Player extends Character
     /** The weapon to fire */
     protected _currentWeapon: Weapon;
 
+    protected _isFiring: boolean = false;
+
+    protected timerFiringState: Phaser.Time.TimerEvent;
+
     constructor(scene: Phaser.Scene, x?: number, y?: number)
     {
         super(scene, x, y);
+
+        this.timerFiringState = scene.time.addEvent({}); // Create an empty timer to avoid null error
     }
 
     // Init
@@ -103,6 +109,30 @@ export class Player extends Character
     /** Update the anims of this Character */
     protected updateAnimations(): void
     {
+        const mouseX = this.scene.input.mousePointer.worldX;
+        const mouseY = this.scene.input.mousePointer.worldY;
+        const rotation = Math.atan2(this.y - mouseY, this.x - mouseX);
+        const baseAnim = this.isWalking ? "Walk" : "Idle";
+
+        if (this._isFiring || !this.isWalking)
+        {
+            if (Math.abs(rotation) < Math.PI * 0.25)
+            {
+                this.anims.play(baseAnim + "Left", true);
+            }
+            else if (Math.abs(rotation) > Math.PI * 0.75)
+            {
+                this.anims.play(baseAnim + "Right", true);
+            }
+            else if (rotation > 0)
+            {
+                this.anims.play(baseAnim + "Up", true);
+            }
+            else
+            {
+                this.anims.play(baseAnim + "Down", true);
+            }
+        }
     }
 
     /** Define the way to control this Character */
@@ -160,6 +190,10 @@ export class Player extends Character
                 (bullet as GZ_Bullet).owner = this;
                 (bullet as GZ_Bullet).damage = this.damage;
             }
+
+            this._isFiring = true;
+            this.timerFiringState.remove();
+            this.timerFiringState = this.scene.time.delayedCall(600, () => { this._isFiring = false; }, null, this);
         }
     }
 
@@ -184,24 +218,40 @@ export class Player extends Character
     public walkUp(): void
     {
         super.walkUp();
-        this.anims.play("WalkUp", true);
+
+        if (!this._isFiring)
+        {
+            this.anims.play("WalkUp", true);
+        }
     }
 
     public walkDown(): void
     {
         super.walkDown();
-        this.anims.play("WalkDown", true);
+
+        if (!this._isFiring)
+        {
+            this.anims.play("WalkDown", true);
+        }
     }
 
     public walkOnLeft(): void
     {
         super.walkOnLeft();
-        this.anims.play("WalkLeft", true);
+
+        if (!this._isFiring)
+        {
+            this.anims.play("WalkLeft", true);
+        }
     }
 
     public walkOnRight(): void
     {
         super.walkOnRight();
-        this.anims.play("WalkRight", true);
+
+        if (!this._isFiring)
+        {
+            this.anims.play("WalkRight", true);
+        }
     }
 }

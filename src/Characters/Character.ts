@@ -226,14 +226,20 @@ export class Character extends Phaser.Physics.Arcade.Sprite
 
     public stopWalkingX(): void
     {
-        this.setVelocityX(0);
-        this.isWalking = ((this.body as Phaser.Physics.Arcade.Body).velocity.y == 0);
+        if ((this.body as Phaser.Physics.Arcade.Body).velocity.x != 0)
+        {
+            this.setVelocityX(0);
+            this.isWalking = ((this.body as Phaser.Physics.Arcade.Body).velocity.y != 0);
+        }
     }
 
     public stopWalkingY(): void
     {
-        this.setVelocityY(0);
-        this.isWalking = ((this.body as Phaser.Physics.Arcade.Body).velocity.x == 0);
+        if ((this.body as Phaser.Physics.Arcade.Body).velocity.y != 0)
+        {
+            this.setVelocityY(0);
+            this.isWalking = ((this.body as Phaser.Physics.Arcade.Body).velocity.x != 0);
+        }
     }
 
     public walkUp(): void
