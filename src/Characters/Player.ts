@@ -184,7 +184,7 @@ export class Player extends Character
     {
         if (this.canFire())
         {
-            const bullet = this._currentWeapon.fireAtPointer(pointer);
+            const bullet = this._currentWeapon.fire(null, pointer.worldX, pointer.worldY);
             if (bullet)
             {
                 (bullet as GZ_Bullet).owner = this;
