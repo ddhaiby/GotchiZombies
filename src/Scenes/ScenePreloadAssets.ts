@@ -23,10 +23,10 @@ export class ScenePreloadAssets extends Phaser.Scene
     {
         this.loadMap();
         this.loadCharacters();
+        this.loadWeapons();
         this.loadUIAssets();
 
         this.load.setPath("./assets/");
-        this.load.image("bullet", "bullet.png");
     }
 
     private loadMap() : void
@@ -41,6 +41,12 @@ export class ScenePreloadAssets extends Phaser.Scene
         this.load.setPath("./assets/Characters");
         this.load.atlas("player", "Player/player.png", "Player/player.json");
         this.load.atlas("zombie", "Enemies/Zombie/zombie.png", "Enemies/Zombie/zombie.json");
+    }
+
+    private loadWeapons() : void
+    {
+        this.load.setPath("./assets/Weapons");
+        this.load.atlas("bullets", "bullets.png", "bullets.json");
     }
 
     private loadUIAssets() : void

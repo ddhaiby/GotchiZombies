@@ -2,7 +2,17 @@ export const CST = {
     GAME: {
         WIDTH: 1000,
         HEIGHT: 700,
-        ZOOM: 1.0
+        ZOOM: 1.0,
+        WEAPONS: {
+            RARITY: {
+                COMMON: "COMMON",
+                UNCOMMON: "UNCOMMON",
+                RARE: "RARE",
+                MYTHICAL: "MYTHICAL",
+                LEGENDARY: "LEGENDARY",
+                GODLIKE: "GODLIKE"
+            }
+        }
     },
     PHYSIC: {
         GRAVITY: 0,

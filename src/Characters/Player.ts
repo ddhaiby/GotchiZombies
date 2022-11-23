@@ -1,7 +1,8 @@
 import { CST } from "../CST";
 import { Character } from "./Character";
-import { Weapon, consts, Bullet, ObjectWithTransform } from "phaser3-weapon-plugin";
+import { GZ_FireWeapon } from "../Weapons/GZ_FireWeapon"
 import { GZ_Bullet } from "../Weapons/GZ_Bullet";
+import { FirePistol } from "../Weapons/FirePistol";
 
 declare type PlayerKeys = 
 {
@@ -17,7 +18,7 @@ export class Player extends Character
     protected keys: PlayerKeys;
 
     /** The weapon to fire */
-    protected _currentWeapon: Weapon;
+    protected _currentWeapon: GZ_FireWeapon;
 
     protected _isFiring: boolean = false;
 
@@ -56,7 +57,8 @@ export class Player extends Character
     {
         super.initAbilities();
 
-        this._currentWeapon = new Weapon(this.scene, -1, "bullet");
+        this._currentWeapon = new FirePistol(this.scene, 0, 0);
+        this._currentWeapon.setOwner(this);
         this._currentWeapon.trackSprite(this);
         this._currentWeapon.bulletClass = GZ_Bullet;
         this._currentWeapon.bulletSpeed = 700;
@@ -143,6 +145,11 @@ export class Player extends Character
             return;
         }
 
+        if (this.scene.input.mousePointer.leftButtonDown())
+        {
+            this.fireAtPointer(this.scene.input.mousePointer);
+        }
+
         if (this.keys.up.isDown)
         {
             this.walkUp();
@@ -175,7 +182,7 @@ export class Player extends Character
         super.postUpdate();
     }
 
-    public get currentWeapon(): Weapon
+    public get currentWeapon(): GZ_FireWeapon
     {
         return this._currentWeapon;
     }
@@ -184,13 +191,7 @@ export class Player extends Character
     {
         if (this.canFire())
         {
-            const bullet = this._currentWeapon.fire(null, pointer.worldX, pointer.worldY);
-            if (bullet)
-            {
-                (bullet as GZ_Bullet).owner = this;
-                (bullet as GZ_Bullet).damage = this.damage;
-            }
-
+            this._currentWeapon.fire(null, pointer.worldX, pointer.worldY);
             this._isFiring = true;
             this.timerFiringState.remove();
             this.timerFiringState = this.scene.time.delayedCall(600, () => { this._isFiring = false; }, null, this);

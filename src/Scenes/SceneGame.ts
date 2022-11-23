@@ -26,8 +26,6 @@ export class SceneGame extends Phaser.Scene
     private currentMap: Phaser.Tilemaps.Tilemap;
     private ground: Phaser.Tilemaps.TilemapLayer;
 
-    private mouseArea: Phaser.GameObjects.Graphics;
-
     // Level data
     private _currentLevel: number;
 
@@ -173,14 +171,6 @@ export class SceneGame extends Phaser.Scene
 
     private createInteractions(): void
     {
-        this.mouseArea = this.add.graphics();
-        // this.mouseArea.setInteractive(new Phaser.Geom.Rectangle(0, 0, this.seas.getBounds().width, this.seas.getBounds().height), Phaser.Geom.Rectangle.Contains);
-        this.mouseArea.setInteractive(new Phaser.Geom.Rectangle(0, 0, this.physics.world.bounds.width, this.physics.world.bounds.height), Phaser.Geom.Rectangle.Contains);
-
-        this.mouseArea.on("pointerdown", (pointer: Phaser.Input.Pointer) => {
-            this.player.fireAtPointer(pointer);
-        });
-
         this.ground.setCollisionByProperty({collides: true});
 
         // @ts-ignore
