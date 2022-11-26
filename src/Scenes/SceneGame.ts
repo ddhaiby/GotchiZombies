@@ -279,6 +279,11 @@ export class SceneGame extends Phaser.Scene
         this.showGame(true);
     }
 
+    public get currentLevel(): number
+    {
+        return this._currentLevel;
+    }
+
     public startNextWave(): void
     {
         this.waveManager.startNewWave();

@@ -1,3 +1,4 @@
+import { SceneGame } from "../../Scenes/SceneGame";
 import { AttributeData } from "../Character";
 import { NpcBase } from "./NpcBase";
 
@@ -35,12 +36,19 @@ export class NpcSpawner extends Phaser.GameObjects.Zone
     }
 
     /** Spawn a new npc if possible */
-    public spawnNpc(): void
+    public spawnNpc(npcLevel: number = 0): void
     {
         if (this.canSpawnNpc())
         {
-            const npc = new NpcBase(this.scene, this.x, this.y);
-            npc.init("zombie", { maxHealth: this.maxHealth, damage: this.damage, walkSpeed: this.walkSpeed } as AttributeData);
+            const sceneGame = this.scene as SceneGame;
+            const gameSettings = this.scene.cache.json.get("gameSettings");
+            const waveData = gameSettings[Math.min(sceneGame.currentLevel - 1, gameSettings.length)];
+
+            const npc = new NpcBase(sceneGame, this.x, this.y);
+            const npcMaxHealth = waveData.enemyHeathBase + waveData.enemyHeathIncreasePerWave * npcLevel;
+            const npcDamage = waveData.enemyDamageBase + waveData.enemyDamageIncreasePerWave * npcLevel;
+
+            npc.init("zombie", { maxHealth: npcMaxHealth, damage: npcDamage, walkSpeed: this.walkSpeed } as AttributeData);
             npc.onDie(() => {
                 this.onNpcDie(npc);
             }, this);

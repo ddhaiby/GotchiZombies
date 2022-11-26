@@ -1,0 +1,34 @@
+[
+	{
+		"waveCount": 2,
+		"playerHealth": 100,
+		"enemyHeathBase": 100,
+		"enemyHeathIncreasePerWave": 5,
+		"enemyDamageBase": 25,
+		"enemyDamageIncreasePerWave": 3
+	},
+	{
+		"waveCount": 3,
+		"playerHealth": 100,
+		"enemyHeathBase": 100,
+		"enemyHeathIncreasePerWave": 5,
+		"enemyDamageBase": 25,
+		"enemyDamageIncreasePerWave": 3
+	},
+	{
+		"waveCount": 4,
+		"playerHealth": 100,
+		"enemyHeathBase": 100,
+		"enemyHeathIncreasePerWave": 5,
+		"enemyDamageBase": 25,
+		"enemyDamageIncreasePerWave": 3
+	},
+	{
+		"waveCount": 5,
+		"playerHealth": 100,
+		"enemyHeathBase": 100,
+		"enemyHeathIncreasePerWave": 5,
+		"enemyDamageBase": 25,
+		"enemyDamageIncreasePerWave": 3
+	}
+]

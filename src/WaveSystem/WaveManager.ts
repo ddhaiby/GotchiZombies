@@ -25,8 +25,8 @@ export class WaveManager extends Phaser.GameObjects.GameObject
         super(scene, "WaveManager");
         this.addSpawners(spawners);
 
-        const waveSettings = this.scene.cache.json.get("waveSettings");
-        this._waveCount = waveSettings[Math.min(currentLevel - 1, waveSettings.length)].waveCount;
+        const gameSettings = this.scene.cache.json.get("gameSettings");
+        this._waveCount = gameSettings[Math.min(currentLevel - 1, gameSettings.length)].waveCount;
     }
 
     public addSpawners(newSpawners: NpcSpawner[])
@@ -85,7 +85,7 @@ export class WaveManager extends Phaser.GameObjects.GameObject
         ++this.spawnedNpcCount;
 
         const spawnCooldown = Math.random() * 1900 + 100;
-        this.scene.time.delayedCall(spawnCooldown, spawner.spawnNpc, null, spawner);
+        this.scene.time.delayedCall(spawnCooldown, spawner.spawnNpc, [this._currentWave - 1], spawner);
     }
 
     protected onWaveCompleted(): void

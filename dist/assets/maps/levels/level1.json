@@ -54,16 +54,6 @@
                  "name":"NpcSpawner",
                  "properties":[
                         {
-                         "name":"damage",
-                         "type":"float",
-                         "value":25
-                        }, 
-                        {
-                         "name":"maxHealth",
-                         "type":"float",
-                         "value":100
-                        }, 
-                        {
                          "name":"maxSpawnableNpcCount",
                          "type":"int",
                          "value":10

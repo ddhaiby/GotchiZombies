@@ -35,7 +35,7 @@ export class ScenePreloadAssets extends Phaser.Scene
 
         this.load.image("floor", "floor.png");
         this.load.image("ammoBox", "ammoBox.png");
-        this.load.json("waveSettings", "waveSettings.json");
+        this.load.json("gameSettings", "gameSettings.json");
     }
 
     private loadCharacters() : void

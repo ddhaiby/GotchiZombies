@@ -26,16 +26,6 @@
                  "name":"Player",
                  "properties":[
                         {
-                         "name":"damage",
-                         "type":"float",
-                         "value":50
-                        }, 
-                        {
-                         "name":"maxHealth",
-                         "type":"float",
-                         "value":100
-                        }, 
-                        {
                          "name":"walkSpeed",
                          "type":"float",
                          "value":250
@@ -53,16 +43,6 @@
                  "id":396,
                  "name":"NpcSpawner",
                  "properties":[
-                        {
-                         "name":"damage",
-                         "type":"float",
-                         "value":25
-                        }, 
-                        {
-                         "name":"maxHealth",
-                         "type":"float",
-                         "value":100
-                        }, 
                         {
                          "name":"maxSpawnableNpcCount",
                          "type":"int",
@@ -96,16 +76,6 @@
                  "id":399,
                  "name":"NpcSpawner",
                  "properties":[
-                        {
-                         "name":"damage",
-                         "type":"float",
-                         "value":25
-                        }, 
-                        {
-                         "name":"maxHealth",
-                         "type":"float",
-                         "value":100
-                        }, 
                         {
                          "name":"maxSpawnableNpcCount",
                          "type":"int",

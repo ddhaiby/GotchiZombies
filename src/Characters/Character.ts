@@ -91,9 +91,7 @@ export class Character extends Phaser.Physics.Arcade.Sprite
     {
         if (attributeData)
         {
-            this.maxHealth = attributeData.maxHealth;
             this.walkSpeed = attributeData.walkSpeed;
-            this.damage = attributeData.damage;
         }
     }
 

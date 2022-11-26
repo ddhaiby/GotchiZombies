@@ -1,8 +1,9 @@
 import { CST } from "../CST";
-import { Character } from "./Character";
+import { AttributeData, Character } from "./Character";
 import { GZ_FireWeapon } from "../Weapons/GZ_FireWeapon"
 import { GZ_Bullet } from "../Weapons/GZ_Bullet";
 import { FirePistol } from "../Weapons/FirePistol";
+import { SceneGame } from "../Scenes/SceneGame";
 
 declare type PlayerKeys = 
 {
@@ -41,6 +42,16 @@ export class Player extends Character
         this.initKeys();
         this.healthBar.width = 50;
         this.healthBar.height = 6;
+    }
+
+    protected initAttributes(attributeData?: AttributeData): void
+    {
+        super.initAttributes(attributeData);
+
+        const sceneGame = this.scene as SceneGame;
+        const gameSettings = this.scene.cache.json.get("gameSettings");
+        this.maxHealth = gameSettings[Math.min(sceneGame.currentLevel - 1, gameSettings.length)].playerHealth;
+        this.health = this.maxHealth;
     }
 
     protected initKeys(): void
@@ -111,6 +122,11 @@ export class Player extends Character
     /** Update the anims of this Character */
     protected updateAnimations(): void
     {
+        if (!this.isAlive())
+        {
+            return;
+        }
+
         const mouseX = this.scene.input.mousePointer.worldX;
         const mouseY = this.scene.input.mousePointer.worldY;
         const rotation = Math.atan2(this.y - mouseY, this.x - mouseX);
