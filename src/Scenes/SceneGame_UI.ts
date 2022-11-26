@@ -79,6 +79,7 @@ export class SceneGame_UI extends GZ_Scene
     {
         this.waveText.setText("WAVE " + currentWave.toString());
         this.waveText.setVisible(true);
+        this.centerItem(this.waveText, 0, -140);
 
         this.time.delayedCall(3000, () => {
             this.waveText.setVisible(false);

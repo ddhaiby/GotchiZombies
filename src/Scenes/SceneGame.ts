@@ -75,7 +75,6 @@ export class SceneGame extends Phaser.Scene
 
     private createKeyboardMap(): this
     {
-        
         const keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         keyESC.on("down", function () {
             this.time.clearPendingEvents();
@@ -95,6 +94,8 @@ export class SceneGame extends Phaser.Scene
             this.scene.add(CST.SCENES.MAIN_MENU, SceneMainMenu_UI, true, null);
             this.scene.setVisible(false);
             this.scene.setActive(false);
+            this.scene.setVisible(false, CST.SCENES.GAME_UI);
+            this.scene.setActive(false, CST.SCENES.GAME_UI);
         }, this);
         return this;
     }
@@ -207,7 +208,12 @@ export class SceneGame extends Phaser.Scene
 
     private createUI(): void
     {
-        if (!this.sceneGame_UI)
+        if (this.sceneGame_UI)
+        {
+            this.showGameUI(true);
+            this.sceneGame_UI.scene.restart();
+        }
+        else
         {
             this.sceneGame_UI = this.scene.add(CST.SCENES.GAME_UI, SceneGame_UI, true, this) as SceneGame_UI;
         }
@@ -269,7 +275,7 @@ export class SceneGame extends Phaser.Scene
 
     private startLevel(): void
     {
-        this.startNextWave();
+        this.time.delayedCall(1, this.startNextWave, null, this);
         this.showGame(true);
     }
 
