@@ -34,6 +34,7 @@ export class ScenePreloadAssets extends Phaser.Scene
         this.load.setPath("./assets/");
 
         this.load.image("floor", "floor.png");
+        this.load.image("ammoBox", "maps/ammoBox.png");
     }
 
     private loadCharacters() : void

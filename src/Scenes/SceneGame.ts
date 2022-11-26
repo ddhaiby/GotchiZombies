@@ -26,6 +26,8 @@ export class SceneGame extends Phaser.Scene
     private currentMap: Phaser.Tilemaps.Tilemap;
     private ground: Phaser.Tilemaps.TilemapLayer;
 
+    private objects: Phaser.Physics.Arcade.StaticGroup;
+
     // Level data
     private _currentLevel: number;
 
@@ -102,6 +104,7 @@ export class SceneGame extends Phaser.Scene
         this.createMap();
         this.createPlayer();
         this.createNpcs();
+        this.createObjects();
         this.createCameras();
         this.createInteractions();
         this.createUI();
@@ -162,6 +165,21 @@ export class SceneGame extends Phaser.Scene
         this.waveManager.on("WAVE_COMPLETED", this.onWaveCompleted, this)
     }
 
+    private createObjects(): void
+    {
+        this.objects = this.physics.add.staticGroup();
+
+        // @ts-ignore - Problem with Phaser’s types. classType supports classes
+        const objects = this.currentMap.createFromObjects("Objects", {name: "AmmoBox", classType: Phaser.GameObjects.Image});
+
+        objects.map((object: Phaser.GameObjects.Image) => {
+            object.setTexture("ammoBox");
+            object.displayWidth = 32 * object.scaleX;
+            object.displayHeight = 32 * object.scaleY;
+            this.objects.add(object);
+        });
+    }
+
     private createCameras(): void
     {
         this.cameras.main.setBounds(0, 0, this.physics.world.bounds.width, this.physics.world.bounds.height);
@@ -175,6 +193,10 @@ export class SceneGame extends Phaser.Scene
 
         // @ts-ignore
         this.physics.add.collider(this.player, this.ground);
+
+        // @ts-ignore
+        this.physics.add.overlap(this.player, this.objects, this.onPlayerCollectObject, this.canPlayerCollectObject, this);
+
         // @ts-ignore
         this.physics.add.collider(this.player.currentWeapon.bullets, this.ground, this.onBulletHitGround, null, this);
 
@@ -228,6 +250,16 @@ export class SceneGame extends Phaser.Scene
     {
         bullet.owner.hit(npc, bullet.damage);
         bullet.kill();
+    }
+
+    private onPlayerCollectObject(player: Player, object: Phaser.GameObjects.Image): void
+    {
+        object.setVisible(false);
+    }
+
+    private canPlayerCollectObject(player: Player, object: Phaser.GameObjects.Image): boolean
+    {
+        return player.isAlive();
     }
 
     private onBulletHitGround(bullet: Bullet, platform: Phaser.Tilemaps.TilemapLayer | Phaser.GameObjects.Image): void
