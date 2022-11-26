@@ -29,17 +29,20 @@ export class GZ_FireWeapon extends GZ_Weapon
     /** Time to reload the weapon */
     protected reloadRate: number = 400;
 
+    protected weaponName: string;
     protected rarity: string = CST.GAME.WEAPONS.RARITY.GODLIKE;
 
-    constructor(scene: Phaser.Scene, x: number, y: number, texture?: string | Phaser.Textures.Texture, frame?: string | number, textureBullet?: string, frameBullet?: string)
+    constructor(scene: Phaser.Scene, x: number, y: number, weaponName: string, rarity: string)
     {
-        super(scene, x, y, texture, frame);
-        this.setVisible(!!texture);
+        super(scene, x, y, null, null);
+        this.setVisible(false);
 
-        frameBullet += "_" + this.rarity + ".png";
+        this.weaponName = weaponName;
 
-        this.weapon = new Weapon(scene, -1, textureBullet, frameBullet);
+        this.weapon = new Weapon(scene, -1, "bullets", "bullet" + this.weaponName + "_" + rarity + ".png");
         this.weapon.trackSprite(this);
+        this.setRarity(rarity);
+
         this.bulletClass = GZ_Bullet;
         this.fireAngle = 0;
         this.bulletKillType = consts.KillType.KILL_WORLD_BOUNDS;
@@ -181,6 +184,16 @@ export class GZ_FireWeapon extends GZ_Weapon
     public stopFiring(): void
     {
         this.tryReloading();
+    }
+
+    public setRarity(rarity: string): void
+    {
+        this.rarity = rarity;
+        this.weapon.bulletFrame = "bullet" + this.weaponName + "_" + this.rarity + ".png";
+        this.weapon.bullets.clear(); // This make sure to redo the bullet pool so the frame is correctly set
+
+        const weaponSettings = this.scene.cache.json.get("weaponSettings");
+        this.damage = weaponSettings[this.weaponName].damage[this.rarity];
     }
 
     public setFlipX(value: boolean): this

@@ -1,0 +1,12 @@
+{
+	"Pistol": {
+		"damage": {
+			"COMMON": 25,
+			"UNCOMMON": 28, 
+			"RARE": 31, 
+			"LEGENDARY": 35, 
+			"MYTHICAL": 40, 
+			"GODLIKE": 50 
+		}
+	}
+}

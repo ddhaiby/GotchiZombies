@@ -47,6 +47,7 @@ export class ScenePreloadAssets extends Phaser.Scene
     {
         this.load.setPath("./assets/Weapons");
         this.load.atlas("bullets", "bullets.png", "bullets.json");
+        this.load.json("weaponSettings", "weaponSettings.json");
     }
 
     private loadUIAssets() : void

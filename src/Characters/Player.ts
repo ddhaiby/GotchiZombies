@@ -57,7 +57,7 @@ export class Player extends Character
     {
         super.initAbilities();
 
-        this._currentWeapon = new FirePistol(this.scene, 0, 0);
+        this._currentWeapon = new FirePistol(this.scene, 0, 0, CST.GAME.WEAPONS.RARITY.COMMON);
         this._currentWeapon.setOwner(this);
         this._currentWeapon.trackSprite(this);
         this._currentWeapon.bulletClass = GZ_Bullet;

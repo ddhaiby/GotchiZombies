@@ -214,7 +214,7 @@ export class SceneGame extends Phaser.Scene
 
     private onPlayerOverlapNpc(player: Player, npc: NpcBase): void
     {
-        npc.hit(player);
+        npc.hit(player, npc.damage);
         npc.die();
         npc.destroy(true);
     }
@@ -226,7 +226,7 @@ export class SceneGame extends Phaser.Scene
 
     private onPlayerBulletHitNpc(bullet: GZ_Bullet, npc: NpcBase): void
     {
-        bullet.owner.hit(npc);
+        bullet.owner.hit(npc, bullet.damage);
         bullet.kill();
     }
 

@@ -3,9 +3,10 @@ import { Character } from "../Characters/Character";
 export class GZ_Weapon extends Phaser.GameObjects.Sprite
 {
     /** The damage per attack */
-    public damage: number = 0;
+    protected damage: number = 0;
 
-    public damageBonus: number = 0;
+    /** Bonus damage */
+    protected damageBonus: number = 0;
 
     /** The character that owns this weapon */
     protected owner: Character = null;

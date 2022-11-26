@@ -20,7 +20,7 @@ export class Character extends Phaser.Physics.Arcade.Sprite
     protected health: number = 100;
 
     /** Current damage of this character */
-    protected damage: number = 25;
+    public damage: number = 25;
 
     // Gui
     /** Health bar of this cahracter */
@@ -201,9 +201,9 @@ export class Character extends Phaser.Physics.Arcade.Sprite
         this.on("DIE", fn, context);
     }
 
-    public hit(targetCharacter: Character)
+    public hit(targetCharacter: Character, damage: number)
     {
-        targetCharacter.setHealth(targetCharacter.health - this.damage);
+        targetCharacter.setHealth(targetCharacter.health - damage);
     }
 
 
