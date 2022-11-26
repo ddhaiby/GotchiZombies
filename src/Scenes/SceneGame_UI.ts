@@ -85,14 +85,20 @@ export class SceneGame_UI extends GZ_Scene
         }, null, this);
     }
 
-    public onWaveCompleted(): void
+    public onWaveCompleted(allWavesCompleted: boolean): void
     {
-        // this.background.setVisible(true);
+        this.background.setVisible(allWavesCompleted);
         this.waveCompletedText.setVisible(true);
-        this.time.delayedCall(1500, () => {
-            this.chronoNextWaveText.setVisible(true);
-            this.updateChronoNextWave(this.durationNextWave);
-        }, null, this);
+        this.waveCompletedText.setText(allWavesCompleted ? "VICTORY" : "WAVE COMPLETED");
+        this.centerItem(this.waveCompletedText, 0, 0);
+
+        if (!allWavesCompleted)
+        {
+            this.time.delayedCall(1500, () => {
+                this.chronoNextWaveText.setVisible(true);
+                this.updateChronoNextWave(this.durationNextWave);
+            }, null, this);
+        }
     }
 
     private updateChronoNextWave(remainTime: number): void

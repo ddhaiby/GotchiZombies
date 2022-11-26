@@ -31,10 +31,11 @@ export class ScenePreloadAssets extends Phaser.Scene
 
     private loadMap() : void
     {
-        this.load.setPath("./assets/");
+        this.load.setPath("./assets/maps");
 
         this.load.image("floor", "floor.png");
-        this.load.image("ammoBox", "maps/ammoBox.png");
+        this.load.image("ammoBox", "ammoBox.png");
+        this.load.json("waveSettings", "waveSettings.json");
     }
 
     private loadCharacters() : void

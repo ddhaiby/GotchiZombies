@@ -161,7 +161,7 @@ export class SceneGame extends Phaser.Scene
             this.spawners.push(spawner);
         });
 
-        this.waveManager = new WaveManager(this, this.spawners);
+        this.waveManager = new WaveManager(this, this.spawners, this._currentLevel);
         this.waveManager.on("WAVE_COMPLETED", this.onWaveCompleted, this)
     }
 
@@ -279,9 +279,9 @@ export class SceneGame extends Phaser.Scene
         this.sceneGame_UI.onStartNewWave(this.waveManager.currentWave);
     }
 
-    private onWaveCompleted(): void
+    private onWaveCompleted(allWavesCompleted: boolean): void
     {
-        this.sceneGame_UI.onWaveCompleted();
+        this.sceneGame_UI.onWaveCompleted(allWavesCompleted);
     }
 
     // Update

@@ -8,7 +8,7 @@ export class WaveManager extends Phaser.GameObjects.GameObject
     /** The current wave players are facing */
     protected _currentWave: number = 0;
 
-    /** Total number of waves - Set value to -1 for infinite waves */
+    /** Total number of waves - Set value to 0 or lower for infinite waves */
     protected _waveCount: number = -1;
 
     /** Number of spawnable npcs for one wave */
@@ -20,10 +20,13 @@ export class WaveManager extends Phaser.GameObjects.GameObject
     /** The number of spawned npcs since the beginning of the game */
     protected spawnedNpcCount: number = 0;
 
-    constructor(scene: Phaser.Scene, spawners: NpcSpawner[] = [])
+    constructor(scene: Phaser.Scene, spawners: NpcSpawner[], currentLevel: number)
     {
         super(scene, "WaveManager");
         this.addSpawners(spawners);
+
+        const waveSettings = this.scene.cache.json.get("waveSettings");
+        this._waveCount = waveSettings[Math.min(currentLevel - 1, waveSettings.length)].waveCount;
     }
 
     public addSpawners(newSpawners: NpcSpawner[])
@@ -87,6 +90,7 @@ export class WaveManager extends Phaser.GameObjects.GameObject
 
     protected onWaveCompleted(): void
     {
-        this.emit("WAVE_COMPLETED");
+        const allWavesCompleted = (this._waveCount > 0) && (this._currentWave >= this._waveCount);
+        this.emit("WAVE_COMPLETED", allWavesCompleted);
     }
 }
