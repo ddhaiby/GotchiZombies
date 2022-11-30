@@ -35,6 +35,7 @@ export class ScenePreloadAssets extends Phaser.Scene
 
         this.load.image("floor", "floor.png");
         this.load.image("ammoBox", "ammoBox.png");
+        this.load.image("mysteryBox", "mysteryBox.png");
         this.load.json("gameSettings", "gameSettings.json");
     }
 
@@ -50,6 +51,7 @@ export class ScenePreloadAssets extends Phaser.Scene
         this.load.setPath("./assets/Weapons");
         this.load.atlas("bullets", "bullets.png", "bullets.json");
         this.load.json("weaponSettings", "weaponSettings.json");
+        this.load.image("starting_pistol", "starting_pistol.png")
     }
 
     private loadUIAssets() : void

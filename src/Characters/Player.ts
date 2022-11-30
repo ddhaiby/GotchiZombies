@@ -4,6 +4,8 @@ import { GZ_FireWeapon } from "../Weapons/GZ_FireWeapon"
 import { GZ_Bullet } from "../Weapons/GZ_Bullet";
 import { FirePistol } from "../Weapons/FirePistol";
 import { SceneGame } from "../Scenes/SceneGame";
+import { GZ_Object } from "../Objects/GZ_Object";
+import { InteractionComponent } from "./InteractionComponent";
 
 declare type PlayerKeys = 
 {
@@ -11,6 +13,7 @@ declare type PlayerKeys =
     down: Phaser.Input.Keyboard.Key;
     left: Phaser.Input.Keyboard.Key;
     right: Phaser.Input.Keyboard.Key;
+    interact: Phaser.Input.Keyboard.Key;
 }
 
 export class Player extends Character
@@ -24,6 +27,14 @@ export class Player extends Character
     protected _isFiring: boolean = false;
 
     protected timerFiringState: Phaser.Time.TimerEvent;
+
+    protected interactableObjects: GZ_Object[] = [];
+
+    protected _interactableComp: InteractionComponent;
+
+    protected focusedObject: GZ_Object;
+    protected oldFocusedObject: GZ_Object;
+    protected oldOldFocusedObject: GZ_Object;
 
     constructor(scene: Phaser.Scene, x?: number, y?: number)
     {
@@ -42,6 +53,11 @@ export class Player extends Character
         this.initKeys();
         this.healthBar.width = 50;
         this.healthBar.height = 6;
+
+        this._interactableComp = new InteractionComponent(this.scene, this, this.x, this.y, this.width + 20, this.height + 20).setOrigin(0.5, 0.5);
+        this.scene.physics.add.existing(this._interactableComp);
+
+        this.setDepth(1);
     }
 
     protected initAttributes(attributeData?: AttributeData): void
@@ -60,8 +76,11 @@ export class Player extends Character
             up: "W",
             down: "S",
             left: "A",
-            right: "D"
+            right: "D",
+            interact: "E"
         }, false) as PlayerKeys;
+
+        this.keys.interact.on("down", this.interact, this);
     }
 
     protected initAbilities(): void
@@ -116,8 +135,21 @@ export class Player extends Character
         this.anims.play("IdleDown");
     }
 
+    public setDepth(value: number): this
+    {
+        this.healthBar.setDepth(value);
+        return super.setDepth(value);
+    }
+
     // Update
     ////////////////////////////////////////////////////////////////////////
+
+    public update(): void
+    {
+        super.update();
+
+        this._interactableComp.setPosition(this.x, this.y);
+    }
 
     /** Update the anims of this Character */
     protected updateAnimations(): void
@@ -151,6 +183,9 @@ export class Player extends Character
                 this.anims.play(baseAnim + "Down", true);
             }
         }
+
+        this.body.setSize(40, this.displayHeight);
+        this.body.setOffset((this.width - 40) * 0.5, (this.height - this.displayHeight));
     }
 
     /** Define the way to control this Character */
@@ -196,11 +231,67 @@ export class Player extends Character
     public postUpdate(): void
     {
         super.postUpdate();
+
+        let newFocuseObject = this.interactableObjects.length > 0 ? this.interactableObjects[0] : null;
+        let distNewFocuseObject = newFocuseObject ? this.distFromPlayer(newFocuseObject) : 999999;
+        
+        for (const object of this.interactableObjects)
+        {
+            const distObject = this.distFromPlayer(object);
+
+            if (distObject < distNewFocuseObject)
+            {
+                newFocuseObject = object;
+                distNewFocuseObject = distObject;
+            }
+        }
+
+        if (this.oldOldFocusedObject && this.oldFocusedObject != this.oldOldFocusedObject && this.oldOldFocusedObject != this.focusedObject && this.oldOldFocusedObject != newFocuseObject)
+        {
+            this.oldOldFocusedObject.hideHint();
+        }
+
+        if (newFocuseObject)
+        {
+            newFocuseObject.showHint();
+        }
+
+        this.oldOldFocusedObject = this.oldFocusedObject;
+        this.oldFocusedObject = this.focusedObject;
+        this.focusedObject = newFocuseObject;
+
+        this.interactableObjects = [];
+    }
+
+    private distFromPlayer(object: GZ_Object): number
+    {
+        return Math.abs(this.x - object.x) + Math.abs(this.y - object.y);
     }
 
     public get currentWeapon(): GZ_FireWeapon
     {
         return this._currentWeapon;
+    }
+
+    public get interactableComp(): Phaser.GameObjects.Zone
+    {
+        return this._interactableComp;
+    }
+
+    public interact(): void
+    {
+        if (this.focusedObject)
+        {
+            this.focusedObject.interact(this);
+        }
+        else if (this.oldFocusedObject)
+        {
+            this.oldFocusedObject.interact(this);
+        }
+        else if (this.oldOldFocusedObject)
+        {
+            this.oldOldFocusedObject.interact(this);
+        }
     }
 
     public fireAtPointer(pointer: Phaser.Input.Pointer): void
@@ -270,5 +361,10 @@ export class Player extends Character
         {
             this.anims.play("WalkRight", true);
         }
+    }
+
+    public onObjectOverlap(object: GZ_Object): void
+    {
+        this.interactableObjects.push(object);
     }
 }

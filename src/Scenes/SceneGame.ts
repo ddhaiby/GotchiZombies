@@ -9,6 +9,10 @@ import { SceneMainMenu_UI } from "./SceneMainMenu_UI";
 import { Bullet } from "phaser3-weapon-plugin";
 import { WaveManager } from "../WaveSystem/WaveManager";
 import { SceneGame_UI } from "./SceneGame_UI";
+import { AmmoBox } from "../Objects/AmmoBox";
+import { GZ_Object } from "../Objects/GZ_Object";
+import { MysteryBox } from "../Objects/MysteryBox";
+import { InteractionComponent } from "../Characters/InteractionComponent";
 
 export class SceneGame extends Phaser.Scene
 {
@@ -26,7 +30,7 @@ export class SceneGame extends Phaser.Scene
     private currentMap: Phaser.Tilemaps.Tilemap;
     private ground: Phaser.Tilemaps.TilemapLayer;
 
-    private objects: Phaser.Physics.Arcade.StaticGroup;
+    private gameObjects: Phaser.Physics.Arcade.Group;
 
     // Level data
     private _currentLevel: number;
@@ -82,13 +86,19 @@ export class SceneGame extends Phaser.Scene
             if (this.npcs)
             {
                 this.npcs.clear(true, true);
-                this.npcs = null;
+                this.npcs = undefined;
             }
 
             if (this.player)
             {
                 this.player.destroy(true);
-                this.player = null;
+                this.player = undefined;
+            }
+
+            if (this.gameObjects)
+            {
+                this.gameObjects.clear(true, true);
+                this.gameObjects = undefined;
             }
 
             this.scene.add(CST.SCENES.MAIN_MENU, SceneMainMenu_UI, true, null);
@@ -140,7 +150,6 @@ export class SceneGame extends Phaser.Scene
         // @ts-ignore - Problem with Phaser’s types. classType supports classes
         const playerSpawns = this.currentMap.createFromObjects("Characters", {name: "Player", classType: Player});
         this.player = playerSpawns[0] as Player;
-        this.player.setDepth(1);
         this.player.init("player");
     }
 
@@ -168,16 +177,27 @@ export class SceneGame extends Phaser.Scene
 
     private createObjects(): void
     {
-        this.objects = this.physics.add.staticGroup();
+        this.gameObjects = this.physics.add.group();
 
         // @ts-ignore - Problem with Phaser’s types. classType supports classes
-        const objects = this.currentMap.createFromObjects("Objects", {name: "AmmoBox", classType: Phaser.GameObjects.Image});
+        let objects = this.currentMap.createFromObjects("Objects", {name: "AmmoBox", classType: AmmoBox});
 
-        objects.map((object: Phaser.GameObjects.Image) => {
+        objects.map((object: GZ_Object) => {
             object.setTexture("ammoBox");
             object.displayWidth = 32 * object.scaleX;
             object.displayHeight = 32 * object.scaleY;
-            this.objects.add(object);
+            this.gameObjects.add(object);
+            object.setImmovable(true);
+        });
+
+        // @ts-ignore - Problem with Phaser’s types. classType supports classes
+        objects = this.currentMap.createFromObjects("Objects", {name: "MysteryBox", classType: MysteryBox});
+        objects.map((object: GZ_Object) => {
+            object.setTexture("mysteryBox");
+            object.displayWidth = 32 * object.scaleX;
+            object.displayHeight = 32 * object.scaleY;
+            this.gameObjects.add(object);
+            object.setImmovable(true);
         });
     }
 
@@ -196,7 +216,10 @@ export class SceneGame extends Phaser.Scene
         this.physics.add.collider(this.player, this.ground);
 
         // @ts-ignore
-        this.physics.add.overlap(this.player, this.objects, this.onPlayerCollectObject, this.canPlayerCollectObject, this);
+        this.physics.add.overlap(this.player.interactableComp, this.gameObjects, this.onPlayerOverlapObject, this.canPlayerOverlapObject, this);
+
+        // @ts-ignore
+        this.physics.add.collider(this.player, this.gameObjects, null, this.canPlayerCollideObject, this);
 
         // @ts-ignore
         this.physics.add.collider(this.player.currentWeapon.bullets, this.ground, this.onBulletHitGround, null, this);
@@ -258,14 +281,26 @@ export class SceneGame extends Phaser.Scene
         bullet.kill();
     }
 
-    private onPlayerCollectObject(player: Player, object: Phaser.GameObjects.Image): void
+    private onPlayerOverlapObject(playerInteractionComp: InteractionComponent, object: GZ_Object): void
     {
-        object.setVisible(false);
+        if (object.interactOnCollision)
+        {
+            object.interact(playerInteractionComp.owner);
+        }
+        else
+        {
+            playerInteractionComp.owner.onObjectOverlap(object);
+        }
     }
 
-    private canPlayerCollectObject(player: Player, object: Phaser.GameObjects.Image): boolean
+    private canPlayerOverlapObject(playerInteractionComp: Phaser.GameObjects.Zone, object: GZ_Object): boolean
     {
-        return player.isAlive();
+        return true;
+    }
+
+    private canPlayerCollideObject(player: Player, object: GZ_Object): boolean
+    {
+        return true;
     }
 
     private onBulletHitGround(bullet: Bullet, platform: Phaser.Tilemaps.TilemapLayer | Phaser.GameObjects.Image): void

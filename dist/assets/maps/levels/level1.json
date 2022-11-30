@@ -102,6 +102,18 @@
                  "width":68,
                  "x":440,
                  "y":72
+                }, 
+                {
+                 "gid":386,
+                 "height":42,
+                 "id":404,
+                 "name":"MysteryBox",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":95,
+                 "x":64,
+                 "y":504
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -110,7 +122,7 @@
          "y":0
         }],
  "nextlayerid":18,
- "nextobjectid":404,
+ "nextobjectid":405,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.2",
@@ -611,6 +623,29 @@
                  "imagewidth":68
                 }],
          "tilewidth":68
+        }, 
+        {
+         "columns":0,
+         "firstgid":386,
+         "grid":
+            {
+             "height":1,
+             "orientation":"orthogonal",
+             "width":1
+            },
+         "margin":0,
+         "name":"mysteryBox",
+         "spacing":0,
+         "tilecount":1,
+         "tileheight":42,
+         "tiles":[
+                {
+                 "id":0,
+                 "image":"..\/mysteryBox.png",
+                 "imageheight":42,
+                 "imagewidth":95
+                }],
+         "tilewidth":95
         }],
  "tilewidth":32,
  "type":"map",

@@ -204,7 +204,6 @@ export class Character extends Phaser.Physics.Arcade.Sprite
         targetCharacter.setHealth(targetCharacter.health - damage);
     }
 
-
     // Walk
     ////////////////////////////////////////////////////////////////////////
 
