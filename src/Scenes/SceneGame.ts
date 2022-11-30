@@ -35,6 +35,8 @@ export class SceneGame extends Phaser.Scene
     // Level data
     private _currentLevel: number;
 
+    private static objectID: number = 0;
+
     constructor()
     {
         super({key: CST.SCENES.GAME});
@@ -186,6 +188,7 @@ export class SceneGame extends Phaser.Scene
             object.setTexture("ammoBox");
             object.displayWidth = 32 * object.scaleX;
             object.displayHeight = 32 * object.scaleY;
+            object.setName((++SceneGame.objectID).toString());
             this.gameObjects.add(object);
             object.setImmovable(true);
         });
@@ -196,6 +199,7 @@ export class SceneGame extends Phaser.Scene
             object.setTexture("mysteryBox");
             object.displayWidth = 32 * object.scaleX;
             object.displayHeight = 32 * object.scaleY;
+            object.setName((++SceneGame.objectID).toString());
             this.gameObjects.add(object);
             object.setImmovable(true);
         });

@@ -28,7 +28,7 @@ export class Player extends Character
 
     protected timerFiringState: Phaser.Time.TimerEvent;
 
-    protected interactableObjects: GZ_Object[] = [];
+    protected interactableObjects: Phaser.Structs.Map<string, GZ_Object> = new Phaser.Structs.Map<string, GZ_Object>([]);
 
     protected _interactableComp: InteractionComponent;
 
@@ -232,35 +232,45 @@ export class Player extends Character
     {
         super.postUpdate();
 
-        let newFocuseObject = this.interactableObjects.length > 0 ? this.interactableObjects[0] : null;
-        let distNewFocuseObject = newFocuseObject ? this.distFromPlayer(newFocuseObject) : 999999;
-        
-        for (const object of this.interactableObjects)
-        {
-            const distObject = this.distFromPlayer(object);
+        let newFocuseObject = null;// = this.interactableObjects > 0 ? this.interactableObjects[0] : null;
+        let distNewFocuseObject = 999999;//newFocuseObject ? this.distFromPlayer(newFocuseObject) : 999999;
 
-            if (distObject < distNewFocuseObject)
+        let newInteractableObjects = new Phaser.Structs.Map<string, GZ_Object>([]);
+
+        for (const object of this.interactableObjects.getArray())
+        {
+            if (object.body.embedded)
             {
-                newFocuseObject = object;
-                distNewFocuseObject = distObject;
-            }
-        }
+                newInteractableObjects.set(object.name, object);
 
-        if (this.oldOldFocusedObject && this.oldFocusedObject != this.oldOldFocusedObject && this.oldOldFocusedObject != this.focusedObject && this.oldOldFocusedObject != newFocuseObject)
-        {
-            this.oldOldFocusedObject.hideHint();
+                const distObject = this.distFromPlayer(object);
+
+                if (distObject < distNewFocuseObject)
+                {
+                    newFocuseObject = object;
+                    distNewFocuseObject = distObject;
+                }
+            }
         }
 
         if (newFocuseObject)
         {
             newFocuseObject.showHint();
+
+            if (this.focusedObject && (this.focusedObject != newFocuseObject))
+            {
+                this.focusedObject.hideHint();
+            }
+
+            this.focusedObject = newFocuseObject;
+        }
+        else if (this.focusedObject)
+        {
+            this.focusedObject.hideHint();
+            this.focusedObject = null;
         }
 
-        this.oldOldFocusedObject = this.oldFocusedObject;
-        this.oldFocusedObject = this.focusedObject;
-        this.focusedObject = newFocuseObject;
-
-        this.interactableObjects = [];
+        this.interactableObjects = newInteractableObjects;
     }
 
     private distFromPlayer(object: GZ_Object): number
@@ -365,6 +375,6 @@ export class Player extends Character
 
     public onObjectOverlap(object: GZ_Object): void
     {
-        this.interactableObjects.push(object);
+        this.interactableObjects.set(object.name, object);
     }
 }
