@@ -205,6 +205,11 @@ export class SceneGame extends Phaser.Scene
         });
     }
 
+    public addToGameObjects(object: GZ_Object): void
+    {
+        this.gameObjects.add(object);
+    }
+
     private createCameras(): void
     {
         this.cameras.main.setBounds(0, 0, this.physics.world.bounds.width, this.physics.world.bounds.height);
@@ -225,12 +230,17 @@ export class SceneGame extends Phaser.Scene
         // @ts-ignore
         this.physics.add.collider(this.player, this.gameObjects, null, this.canPlayerCollideObject, this);
 
-        // @ts-ignore
-        this.physics.add.collider(this.player.currentWeapon.bullets, this.ground, this.onBulletHitGround, null, this);
+        this.createBulleteInteractions();
 
         this.physics.add.collider(this.npcs, this.npcs);
-        this.physics.add.overlap(this.player.currentWeapon.bullets, this.npcs, this.onPlayerBulletHitNpc, this.canPlayerBulletHitNpc, this);
         this.physics.add.overlap(this.player, this.npcs, this.onPlayerOverlapNpc, this.canPlayerOverlapNpc, this);
+    }
+
+    public createBulleteInteractions(): void
+    {
+        // @ts-ignore
+        this.physics.add.collider(this.player.currentWeapon.bullets, this.ground, this.onBulletHitGround, null, this);
+        this.physics.add.overlap(this.player.currentWeapon.bullets, this.npcs, this.onPlayerBulletHitNpc, this.canPlayerBulletHitNpc, this);
     }
 
     private createUI(): void
@@ -285,7 +295,7 @@ export class SceneGame extends Phaser.Scene
         bullet.kill();
     }
 
-    private onPlayerOverlapObject(playerInteractionComp: InteractionComponent, object: GZ_Object): void
+    public onPlayerOverlapObject(playerInteractionComp: InteractionComponent, object: GZ_Object): void
     {
         if (object.interactOnCollision)
         {

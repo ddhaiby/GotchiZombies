@@ -87,12 +87,7 @@ export class Player extends Character
     {
         super.initAbilities();
 
-        this._currentWeapon = new FirePistol(this.scene, 0, 0, CST.GAME.WEAPONS.RARITY.COMMON);
-        this._currentWeapon.setOwner(this);
-        this._currentWeapon.trackSprite(this);
-        this._currentWeapon.bulletClass = GZ_Bullet;
-        this._currentWeapon.bulletSpeed = 700;
-        this._currentWeapon.fireRate = 150;
+        this.equipWeapon(CST.GAME.WEAPONS.RARITY.COMMON);
     }
 
     protected initAnimations(texture: string): void
@@ -239,7 +234,7 @@ export class Player extends Character
 
         for (const object of this.interactableObjects.getArray())
         {
-            if (object.body.embedded)
+            if (object && object.body && object.body.embedded)
             {
                 newInteractableObjects.set(object.name, object);
 
@@ -276,6 +271,25 @@ export class Player extends Character
     private distFromPlayer(object: GZ_Object): number
     {
         return Math.abs(this.x - object.x) + Math.abs(this.y - object.y);
+    }
+
+    public equipWeapon(rarity: string): void
+    {
+        if (this._currentWeapon)
+        {
+            this._currentWeapon.destroy(true);
+            this._currentWeapon = null;
+        }
+
+        this._currentWeapon = new FirePistol(this.scene, 0, 0, rarity);
+        this._currentWeapon.setOwner(this);
+        this._currentWeapon.setOwner(this);
+        this._currentWeapon.trackSprite(this);
+        this._currentWeapon.bulletClass = GZ_Bullet;
+        this._currentWeapon.bulletSpeed = 700;
+        this._currentWeapon.fireRate = 150;
+
+        (this.scene as SceneGame).createBulleteInteractions()
     }
 
     public get currentWeapon(): GZ_FireWeapon

@@ -1,4 +1,4 @@
-import { Character } from "../Characters/Character";
+import { Player } from "../Characters/Player";
 
 export class GZ_Object extends Phaser.Physics.Arcade.Image
 {
@@ -14,10 +14,22 @@ export class GZ_Object extends Phaser.Physics.Arcade.Image
         this.scene.time.delayedCall(1, () => {
             this.hintTextObject = scene.add.text(this.x - this.displayWidth + this.hintOffset.x, this.y - this.displayHeight + this.hintOffset.y, hintText);
             this.hintTextObject.setVisible(false);
+            this.postInialized();
         }, null, this);
     }
 
-    public interact(character?: Character) : void
+    protected postInialized(): void
+    {
+
+    }
+
+    public destroy(fromScene?: boolean): void
+    {
+        this.hintTextObject.destroy();
+        super.destroy(fromScene);
+    }
+
+    public interact(player?: Player) : void
     {   
     }
 

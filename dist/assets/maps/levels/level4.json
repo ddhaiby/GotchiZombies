@@ -174,9 +174,44 @@
          "visible":true,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":17,
+         "name":"Objects",
+         "objects":[
+                {
+                 "gid":386,
+                 "height":32,
+                 "id":402,
+                 "name":"AmmoBox",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":68,
+                 "x":736,
+                 "y":72
+                }, 
+                {
+                 "gid":385,
+                 "height":42,
+                 "id":403,
+                 "name":"MysteryBox",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":95,
+                 "x":720,
+                 "y":664
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":17,
- "nextobjectid":402,
+ "nextlayerid":18,
+ "nextobjectid":404,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.2",
@@ -654,6 +689,52 @@
                         }]
                 }],
          "tilewidth":32
+        }, 
+        {
+         "columns":0,
+         "firstgid":385,
+         "grid":
+            {
+             "height":1,
+             "orientation":"orthogonal",
+             "width":1
+            },
+         "margin":0,
+         "name":"mysteryBox",
+         "spacing":0,
+         "tilecount":1,
+         "tileheight":42,
+         "tiles":[
+                {
+                 "id":0,
+                 "image":"..\/mysteryBox.png",
+                 "imageheight":42,
+                 "imagewidth":95
+                }],
+         "tilewidth":95
+        }, 
+        {
+         "columns":0,
+         "firstgid":386,
+         "grid":
+            {
+             "height":1,
+             "orientation":"orthogonal",
+             "width":1
+            },
+         "margin":0,
+         "name":"ammoBox",
+         "spacing":0,
+         "tilecount":1,
+         "tileheight":32,
+         "tiles":[
+                {
+                 "id":0,
+                 "image":"..\/ammoBox.png",
+                 "imageheight":32,
+                 "imagewidth":68
+                }],
+         "tilewidth":68
         }],
  "tilewidth":32,
  "type":"map",
