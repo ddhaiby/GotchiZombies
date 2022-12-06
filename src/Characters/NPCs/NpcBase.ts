@@ -43,6 +43,8 @@ export class NpcBase extends Character
         });
 
         this.anims.play("Idle");
+
+        this.setScale(1.6);
     }
 
      // Update
