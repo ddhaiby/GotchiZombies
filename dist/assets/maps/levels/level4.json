@@ -44,21 +44,6 @@
                  "name":"NpcSpawner",
                  "properties":[
                         {
-                         "name":"maxSpawnableNpcCount",
-                         "type":"int",
-                         "value":6
-                        }, 
-                        {
-                         "name":"maxSpawnableNpcInGameCount",
-                         "type":"int",
-                         "value":2
-                        }, 
-                        {
-                         "name":"spawnCooldown",
-                         "type":"float",
-                         "value":0.5
-                        }, 
-                        {
                          "name":"walkSpeed",
                          "type":"float",
                          "value":100
@@ -76,21 +61,6 @@
                  "id":399,
                  "name":"NpcSpawner",
                  "properties":[
-                        {
-                         "name":"maxSpawnableNpcCount",
-                         "type":"int",
-                         "value":10
-                        }, 
-                        {
-                         "name":"maxSpawnableNpcInGameCount",
-                         "type":"int",
-                         "value":1
-                        }, 
-                        {
-                         "name":"spawnCooldown",
-                         "type":"float",
-                         "value":1
-                        }, 
                         {
                          "name":"walkSpeed",
                          "type":"float",
@@ -110,21 +80,6 @@
                  "name":"NpcSpawner",
                  "properties":[
                         {
-                         "name":"maxSpawnableNpcCount",
-                         "type":"int",
-                         "value":3
-                        }, 
-                        {
-                         "name":"maxSpawnableNpcInGameCount",
-                         "type":"int",
-                         "value":3
-                        }, 
-                        {
-                         "name":"spawnCooldown",
-                         "type":"float",
-                         "value":2
-                        }, 
-                        {
                          "name":"walkSpeed",
                          "type":"float",
                          "value":100
@@ -142,21 +97,6 @@
                  "id":401,
                  "name":"NpcSpawner",
                  "properties":[
-                        {
-                         "name":"maxSpawnableNpcCount",
-                         "type":"int",
-                         "value":6
-                        }, 
-                        {
-                         "name":"maxSpawnableNpcInGameCount",
-                         "type":"int",
-                         "value":2
-                        }, 
-                        {
-                         "name":"spawnCooldown",
-                         "type":"float",
-                         "value":0.5
-                        }, 
                         {
                          "name":"walkSpeed",
                          "type":"float",

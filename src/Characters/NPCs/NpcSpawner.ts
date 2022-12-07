@@ -45,7 +45,7 @@ export class NpcSpawner extends Phaser.GameObjects.Zone
             const waveData = gameSettings[Math.min(sceneGame.currentLevel - 1, gameSettings.length)];
 
             const npc = new NpcBase(sceneGame, this.x, this.y);
-            const npcMaxHealth = waveData.enemyHeathBase + waveData.enemyHeathIncreasePerWave * npcLevel;
+            const npcMaxHealth = waveData.enemyHealthBase + waveData.enemyHealthIncreasePerWave * npcLevel;
             const npcDamage = waveData.enemyDamageBase + waveData.enemyDamageIncreasePerWave * npcLevel;
 
             npc.init("zombie", { maxHealth: npcMaxHealth, damage: npcDamage, walkSpeed: this.walkSpeed } as AttributeData);
@@ -65,7 +65,7 @@ export class NpcSpawner extends Phaser.GameObjects.Zone
         return this._aliveSpawnedNpcCount;
     }
 
-    /** Triggered function when an npc dies */
+    /** Triggered function when a npc dies */
     protected onNpcDie(npc: NpcBase): void
     {
         --this._aliveSpawnedNpcCount;

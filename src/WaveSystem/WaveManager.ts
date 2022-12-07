@@ -3,7 +3,7 @@ import { NpcSpawner } from "../Characters/NPCs/NpcSpawner";
 
 export class WaveManager extends Phaser.GameObjects.GameObject
 {
-    protected spawners: NpcSpawner[] = [];
+    protected _spawners: NpcSpawner[] = [];
 
     /** The current wave players are facing */
     protected _currentWave: number = 0;
@@ -12,13 +12,18 @@ export class WaveManager extends Phaser.GameObjects.GameObject
     protected _waveCount: number = -1;
 
     /** Number of spawnable npcs for one wave */
-    protected npcCount: number = 4;
+    protected _npcCount: number = 4;
 
     /** The current number of spawned npcs in the game */
-    protected aliveSpawnedNpcCount: number = 0;
+    protected _aliveSpawnedNpcCount: number = 0;
 
     /** The number of spawned npcs since the beginning of the game */
-    protected spawnedNpcCount: number = 0;
+    protected _spawnedNpcCount: number = 0;
+
+    /** Base cooldown to spawn a npx */
+    protected _spawnCooldown: number = 4000;
+
+    protected _currentWaveSettings: any;
 
     constructor(scene: Phaser.Scene, spawners: NpcSpawner[], currentLevel: number)
     {
@@ -26,14 +31,17 @@ export class WaveManager extends Phaser.GameObjects.GameObject
         this.addSpawners(spawners);
 
         const gameSettings = this.scene.cache.json.get("gameSettings");
-        this._waveCount = gameSettings[Math.min(currentLevel - 1, gameSettings.length)].waveCount;
+        this._currentWaveSettings = gameSettings[Math.min(currentLevel - 1, gameSettings.length)];
+
+        this._waveCount = this._currentWaveSettings.waveCount;
+        this._npcCount = this._currentWaveSettings.ennemyCountBase + this._currentWaveSettings.ennemyCountIncreasePerWaveBase * this._currentWave;
     }
 
     public addSpawners(newSpawners: NpcSpawner[])
     {
         for (const spawner of newSpawners)
         {
-            this.spawners.push(spawner);
+            this._spawners.push(spawner);
             spawner.on("NPC_DIED", (npc: NpcBase) => { this.onNpcDie(spawner, npc); }, this);
         }
     }
@@ -43,27 +51,29 @@ export class WaveManager extends Phaser.GameObjects.GameObject
         return this._currentWave;
     }
 
-    public startNewWave(): void
+    public startNewWave(currentLevel: number): void
     {
         ++this._currentWave;
-        this.aliveSpawnedNpcCount = 0;
-        this.spawnedNpcCount = 0;
 
-        for (const spawner of this.spawners)
+        this._aliveSpawnedNpcCount = 0;
+        this._spawnedNpcCount = 0;
+
+        const gameSettings = this.scene.cache.json.get("gameSettings");
+        this._currentWaveSettings = gameSettings[Math.min(currentLevel - 1, gameSettings.length)];
+        this._npcCount = this._currentWaveSettings.ennemyCountBase + this._currentWaveSettings.ennemyCountIncreasePerWaveBase * (this._currentWave - 1);
+        this._spawnCooldown = Math.max(this._currentWaveSettings.ennemySpawnCooldownMin, (this._currentWaveSettings.ennemySpawnCooldownBase + this._currentWaveSettings.ennemySpawnCooldownIncreasePerWave * (this._currentWave - 1))) * 1000;
+
+        for (const spawner of this._spawners)
         {
-            this.spawnNpc(spawner);
+            this.waitAndSpawnNpc(spawner);
         }
     }
 
     protected onNpcDie(spawner: NpcSpawner, npc: NpcBase): void
     {
-        --this.aliveSpawnedNpcCount;
+        --this._aliveSpawnedNpcCount;
 
-        if (this.canSpawnNpc())
-        {
-            this.spawnNpc(spawner);
-        }
-        else if (this.isWaveCompleted())
+        if (this.isWaveCompleted())
         {
             this.onWaveCompleted();
         }
@@ -71,21 +81,30 @@ export class WaveManager extends Phaser.GameObjects.GameObject
 
     protected canSpawnNpc(): boolean
     {
-        return this.spawnedNpcCount < this.npcCount;
+        return this._spawnedNpcCount < this._npcCount;
     }
 
     protected isWaveCompleted(): boolean
     {
-        return !this.canSpawnNpc() && this.aliveSpawnedNpcCount <= 0;
+        return !this.canSpawnNpc() && this._aliveSpawnedNpcCount <= 0;
     }
 
-    protected spawnNpc(spawner: NpcSpawner): void
+    protected waitAndSpawnNpc(spawner: NpcSpawner): void
     {
-        ++this.aliveSpawnedNpcCount;
-        ++this.spawnedNpcCount;
+        ++this._aliveSpawnedNpcCount;
+        ++this._spawnedNpcCount;
 
-        const spawnCooldown = Math.random() * 1900 + 100;
-        this.scene.time.delayedCall(spawnCooldown, spawner.spawnNpc, [this._currentWave - 1], spawner);
+        this.scene.time.delayedCall(this._spawnCooldown + Math.random() * 400, this.spawnNpc, [spawner, this._currentWave - 1], this);
+    }
+
+    protected spawnNpc(spawner: NpcSpawner, npcLevel: number = 0): void
+    {
+        spawner.spawnNpc(npcLevel);
+
+        if (this.canSpawnNpc())
+        {
+            this.waitAndSpawnNpc(spawner);
+        }
     }
 
     protected onWaveCompleted(): void

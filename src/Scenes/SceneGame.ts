@@ -335,7 +335,7 @@ export class SceneGame extends Phaser.Scene
 
     public startNextWave(): void
     {
-        this.waveManager.startNewWave();
+        this.waveManager.startNewWave(this._currentLevel);
         this.sceneGame_UI.onStartNewWave(this.waveManager.currentWave);
     }
 

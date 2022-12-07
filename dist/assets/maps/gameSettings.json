@@ -1,33 +1,53 @@
 [
 	{
-		"waveCount": 2,
-		"playerHealth": 100,
-		"enemyHeathBase": 100,
-		"enemyHeathIncreasePerWave": 5,
-		"enemyDamageBase": 25,
-		"enemyDamageIncreasePerWave": 3
-	},
-	{
-		"waveCount": 3,
-		"playerHealth": 100,
-		"enemyHeathBase": 100,
-		"enemyHeathIncreasePerWave": 5,
-		"enemyDamageBase": 25,
-		"enemyDamageIncreasePerWave": 3
-	},
-	{
-		"waveCount": 4,
-		"playerHealth": 100,
-		"enemyHeathBase": 100,
-		"enemyHeathIncreasePerWave": 5,
-		"enemyDamageBase": 25,
-		"enemyDamageIncreasePerWave": 3
-	},
-	{
 		"waveCount": 5,
 		"playerHealth": 100,
-		"enemyHeathBase": 100,
-		"enemyHeathIncreasePerWave": 5,
+		"ennemyCountBase": 3,
+		"ennemyCountIncreasePerWaveBase": 2,
+		"ennemySpawnCooldownBase": 3,
+		"ennemySpawnCooldownIncreasePerWave": -0.1,
+		"ennemySpawnCooldownMin": 2,
+		"enemyHealthBase": 100,
+		"enemyHealthIncreasePerWave": 5,
+		"enemyDamageBase": 25,
+		"enemyDamageIncreasePerWave": 3
+	},
+	{
+		"waveCount": 8,
+		"playerHealth": 100,
+		"ennemyCountBase": 5,
+		"ennemyCountIncreasePerWaveBase": 3,
+		"ennemySpawnCooldownBase": 3,
+		"ennemySpawnCooldownIncreasePerWave": -0.1,
+		"ennemySpawnCooldownMin": 2,
+		"enemyHealthBase": 100,
+		"enemyHealthIncreasePerWave": 5,
+		"enemyDamageBase": 25,
+		"enemyDamageIncreasePerWave": 3
+	},
+	{
+		"waveCount": 12,
+		"playerHealth": 100,
+		"ennemyCountBase": 6,
+		"ennemyCountIncreasePerWaveBase": 3,
+		"ennemySpawnCooldownBase": 3,
+		"ennemySpawnCooldownIncreasePerWave": -0.1,
+		"ennemySpawnCooldownMin": 2,
+		"enemyHealthBase": 100,
+		"enemyHealthIncreasePerWave": 5,
+		"enemyDamageBase": 25,
+		"enemyDamageIncreasePerWave": 3
+	},
+	{
+		"waveCount": 16,
+		"playerHealth": 100,
+		"ennemyCountBase": 8,
+		"ennemyCountIncreasePerWaveBase": 4,
+		"ennemySpawnCooldownBase": 3,
+		"ennemySpawnCooldownIncreasePerWave": -0.1,
+		"ennemySpawnCooldownMin": 2,
+		"enemyHealthBase": 100,
+		"enemyHealthIncreasePerWave": 5,
 		"enemyDamageBase": 25,
 		"enemyDamageIncreasePerWave": 3
 	}
