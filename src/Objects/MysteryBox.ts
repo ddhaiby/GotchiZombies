@@ -22,7 +22,7 @@ export class MysteryBox extends GZ_Object
             this.lastObject.destroy(true);
         }
 
-        this.lastObject = new DropWeapon(this.scene, this.x, this.y + 40, "starting_pistol");
+        this.lastObject = new DropWeapon(this.scene, this.x, this.y + 40);
         this.scene.add.existing(this.lastObject);
         (this.scene as SceneGame).addToGameObjects(this.lastObject);
         this.lastObject.setImmovable(true);

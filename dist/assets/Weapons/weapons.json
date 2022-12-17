@@ -1,0 +1,146 @@
+{
+	"textures": [
+		{
+			"image": "weapons.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 56,
+				"h": 161
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "starting_pistol_GODLIKE.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 52,
+						"h": 40
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 52,
+						"h": 40
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 52,
+						"h": 40
+					}
+				},
+				{
+					"filename": "starting_pistol_LEGENDARY.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 52,
+						"h": 40
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 52,
+						"h": 40
+					},
+					"frame": {
+						"x": 1,
+						"y": 43,
+						"w": 52,
+						"h": 40
+					}
+				},
+				{
+					"filename": "starting_pistol_MYTHICAL.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 40,
+						"h": 31
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 40,
+						"h": 31
+					},
+					"frame": {
+						"x": 1,
+						"y": 85,
+						"w": 40,
+						"h": 31
+					}
+				},
+				{
+					"filename": "starting_pistol_COMMON.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 26,
+						"h": 20
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 26,
+						"h": 20
+					},
+					"frame": {
+						"x": 1,
+						"y": 118,
+						"w": 26,
+						"h": 20
+					}
+				},
+				{
+					"filename": "starting_pistol_RARE.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 26,
+						"h": 20
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 26,
+						"h": 20
+					},
+					"frame": {
+						"x": 29,
+						"y": 118,
+						"w": 26,
+						"h": 20
+					}
+				},
+				{
+					"filename": "starting_pistol_UNCOMMON.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 26,
+						"h": 20
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 26,
+						"h": 20
+					},
+					"frame": {
+						"x": 1,
+						"y": 140,
+						"w": 26,
+						"h": 20
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:22407ff541f2190aab6312e57fa29e00:e4d643848aace87f66f9e7ccda4ca36d:ba48453f8b2235fdb166a51105f49255$"
+	}
+}

@@ -6,18 +6,19 @@ export class DropWeapon extends GZ_Object
 {
     protected rarity: string = CST.GAME.WEAPONS.RARITY.COMMON;
 
-    constructor(scene: Phaser.Scene, x: number, y: number, texture: string | Phaser.Textures.Texture, frame?: string | number)
+    constructor(scene: Phaser.Scene, x: number, y: number)
     {
-        super(scene, x, y, texture, frame);
+        const rarity = Object.keys(CST.GAME.WEAPONS.RARITY)[Phaser.Math.Between(0, Object.keys(CST.GAME.WEAPONS.RARITY).length - 1)];
+
+        super(scene, x, y, "weapons", "starting_pistol_" + rarity + ".png");
+
+        this.rarity = rarity;
         this.interactOnCollision = false;
     }
 
     protected postInialized(): void
     {
         super.postInialized();
-
-        const rarityIndex = Phaser.Math.Between(0, Object.keys(CST.GAME.WEAPONS.RARITY).length - 1);
-        this.rarity = Object.keys(CST.GAME.WEAPONS.RARITY)[rarityIndex];
         this.hintTextObject.setText(this.rarity);
     }
 
