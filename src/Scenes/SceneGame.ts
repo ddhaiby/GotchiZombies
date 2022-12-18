@@ -196,7 +196,7 @@ export class SceneGame extends Phaser.Scene
         // @ts-ignore - Problem with Phaser’s types. classType supports classes
         objects = this.currentMap.createFromObjects("Objects", {name: "MysteryBox", classType: MysteryBox});
         objects.map((object: GZ_Object) => {
-            object.setTexture("mysteryBox");
+            object.setTexture("mysteryBoxClosed");
             object.displayWidth = 32 * object.scaleX;
             object.displayHeight = 32 * object.scaleY;
             object.setName((++SceneGame.objectID).toString());

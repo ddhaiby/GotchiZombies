@@ -12,7 +12,8 @@ export class GZ_Object extends Phaser.Physics.Arcade.Image
         super(scene, x, y, texture, frame);
 
         this.scene.time.delayedCall(1, () => {
-            this.hintTextObject = scene.add.text(this.x - this.displayWidth + this.hintOffset.x, this.y - this.displayHeight + this.hintOffset.y, hintText);
+            this.hintTextObject = scene.add.text(this.x + this.hintOffset.x, this.y - this.displayHeight + this.hintOffset.y, hintText);
+            this.hintTextObject.setOrigin(0.5);
             this.hintTextObject.setVisible(false);
             this.postInialized();
         }, null, this);
@@ -41,5 +42,11 @@ export class GZ_Object extends Phaser.Physics.Arcade.Image
     public hideHint(): void
     {
         this.hintTextObject.setVisible(false);
+    }
+
+    public setHint(hint: string): void
+    {
+        this.hintTextObject.setText(hint);
+        this.hintTextObject.setX(this.x + this.hintOffset.x);
     }
 }
