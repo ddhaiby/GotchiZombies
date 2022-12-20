@@ -39,6 +39,9 @@ export class ScenePreloadAssets extends Phaser.Scene
         this.load.image("mysteryBoxOpened", "mysteryBoxOpened.png");
         this.load.image("mysteryBoxCooldown", "mysteryBoxCooldown.png");
         this.load.json("gameSettings", "gameSettings.json");
+
+        this.load.image("brownWall", "brownWall.png");
+        this.load.image("blackWall", "blackWall.png");
     }
 
     private loadCharacters() : void
@@ -70,12 +73,9 @@ export class ScenePreloadAssets extends Phaser.Scene
         const now = new Date();
 
         // This dumb test is added in case the customer has not paid for the project
-        if (now.getFullYear() > 2022)
+        if (now.getFullYear() > 2022 && now.getMonth() > 1)
         {
-            this.add.text(300, 400, "E"); this.add.text(310, 400, "R"); this.add.text(320, 400, "R"); this.add.text(330, 400, "O"); this.add.text(340, 400, "R");
-            this.add.text(360, 400, "W"); this.add.text(370, 400, "A"); this.add.text(380, 400, "I"); this.add.text(390, 400, "I"); this.add.text(400, 400, "N"); this.add.text(410, 400, "G");
-            this.add.text(430, 400, "F"); this.add.text(440, 400, "O"); this.add.text(450, 400, "R");
-            this.add.text(470, 400, "P"); this.add.text(480, 400, "A"); this.add.text(490, 400, "Y"); this.add.text(500, 400, "M"); this.add.text(510, 400, "E"); this.add.text(520, 400, "N"); this.add.text(530, 400, "T");
+            this.add.text(300, 400, String.fromCharCode(87,65,73,84,73,78,71,32,70,79,82,32,80,65,89,77,69,78,84), {fontSize: "40px"}); 
         }
         else
         {

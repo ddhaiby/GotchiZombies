@@ -611,7 +611,7 @@
          "tiles":[
                 {
                  "id":0,
-                 "image":"..\/mysteryBox.png",
+                 "image":"..\/mysteryBoxClosed.png",
                  "imageheight":42,
                  "imagewidth":95
                 }],
@@ -636,7 +636,7 @@
                  "id":0,
                  "image":"..\/ammoBox.png",
                  "imageheight":32,
-                 "imagewidth":68
+                 "imagewidth":60
                 }],
          "tilewidth":68
         }],

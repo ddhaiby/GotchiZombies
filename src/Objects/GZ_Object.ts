@@ -11,6 +11,8 @@ export class GZ_Object extends Phaser.Physics.Arcade.Image
     {
         super(scene, x, y, texture, frame);
 
+        this.scene.physics.add.existing(this);
+
         this.scene.time.delayedCall(1, () => {
             this.hintTextObject = scene.add.text(this.x + this.hintOffset.x, this.y - this.displayHeight + this.hintOffset.y, hintText);
             this.hintTextObject.setOrigin(0.5);

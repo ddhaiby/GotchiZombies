@@ -182,26 +182,70 @@ export class SceneGame extends Phaser.Scene
         this.gameObjects = this.physics.add.group();
 
         // @ts-ignore - Problem with Phaser’s types. classType supports classes
-        let objects = this.currentMap.createFromObjects("Objects", {name: "AmmoBox", classType: AmmoBox});
-
+        let objects = this.currentMap.createFromObjects("Walls", {name: "Wall", classType: GZ_Object});
         objects.map((object: GZ_Object) => {
-            object.setTexture("ammoBox");
-            object.displayWidth = 32 * object.scaleX;
-            object.displayHeight = 32 * object.scaleY;
             object.setName((++SceneGame.objectID).toString());
             this.gameObjects.add(object);
             object.setImmovable(true);
+
+            object.setTexture("brownWall");
+
+            object.displayWidth = 32 * object.scaleX;
+            object.displayHeight = 32 * object.scaleY;
+
+            if (object.rotation == 0)
+            {
+                object.setBodySize(object.displayWidth, object.displayHeight)
+            }
+            else
+            {
+                object.setBodySize(object.displayHeight, object.displayWidth)
+            }
+        });
+
+        // @ts-ignore - Problem with Phaser’s types. classType supports classes
+        objects = this.currentMap.createFromObjects("Walls", {name: "BlackWall", classType: GZ_Object});
+        objects.map((object: GZ_Object) => {
+            object.setName((++SceneGame.objectID).toString());
+            // this.gameObjects.add(object);
+            object.setTexture("blackWall");
+
+            object.displayWidth = 32 * object.scaleX;
+            object.displayHeight = 32 * object.scaleY;
+
+            if (object.rotation == 0)
+            {
+                object.setBodySize(object.displayWidth, object.displayHeight)
+            }
+            else
+            {
+                object.setBodySize(object.displayHeight, object.displayWidth)
+            }
+        });
+
+        // @ts-ignore - Problem with Phaser’s types. classType supports classes
+        objects = this.currentMap.createFromObjects("Objects", {name: "AmmoBox", classType: AmmoBox});
+
+        objects.map((object: GZ_Object) => {
+            object.setTexture("ammoBox");
+            object.setName((++SceneGame.objectID).toString());
+            this.gameObjects.add(object);
+            object.setImmovable(true);
+            object.displayWidth = 32 * object.scaleX;
+            object.displayHeight = 32 * object.scaleY;
+            object.setBodySize(object.displayWidth, object.displayHeight)
         });
 
         // @ts-ignore - Problem with Phaser’s types. classType supports classes
         objects = this.currentMap.createFromObjects("Objects", {name: "MysteryBox", classType: MysteryBox});
         objects.map((object: GZ_Object) => {
             object.setTexture("mysteryBoxClosed");
-            object.displayWidth = 32 * object.scaleX;
-            object.displayHeight = 32 * object.scaleY;
             object.setName((++SceneGame.objectID).toString());
             this.gameObjects.add(object);
             object.setImmovable(true);
+            object.displayWidth = 32 * object.scaleX;
+            object.displayHeight = 32 * object.scaleY;
+            object.setBodySize(object.displayWidth, object.displayHeight)
         });
     }
 
@@ -240,6 +284,9 @@ export class SceneGame extends Phaser.Scene
     {
         // @ts-ignore
         this.physics.add.collider(this.player.currentWeapon.bullets, this.ground, this.onBulletHitGround, null, this);
+
+        // @ts-ignore
+        this.physics.add.collider(this.player.currentWeapon.bullets, this.gameObjects, this.onBulletHitGround, null, this);
         this.physics.add.overlap(this.player.currentWeapon.bullets, this.npcs, this.onPlayerBulletHitNpc, this.canPlayerBulletHitNpc, this);
     }
 
@@ -317,7 +364,7 @@ export class SceneGame extends Phaser.Scene
         return true;
     }
 
-    private onBulletHitGround(bullet: Bullet, platform: Phaser.Tilemaps.TilemapLayer | Phaser.GameObjects.Image): void
+    private onBulletHitGround(bullet: Bullet, platform: Phaser.Tilemaps.TilemapLayer | Phaser.GameObjects.Image | GZ_Object): void
     {
         bullet.kill();
     }
